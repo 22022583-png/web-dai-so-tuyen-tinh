@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hệ Thống Luyện Thi Đại Số Tuyến Tính (60 Phút)</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- KaTeX hiển thị Toán học -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <style>
+    .katex-display { overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 pb-24">
+
+  <!-- Header chọn đề & đồng hồ -->
+  <header class="sticky top-0 z-50 bg-white shadow-sm border-b border-slate-200 px-4 py-3 flex flex-col sm:flex-row justify-between items-center gap-3">
+    <div class="flex items-center gap-3 w-full sm:w-auto">
+      <div>
+        <h1 id="exam-title-header" class="font-bold text-base sm:text-lg text-blue-700">Đại Số Tuyến Tính</h1>
+        <p class="text-xs text-slate-500">Không dùng máy tính | Form chuẩn 60 phút (35 câu)</p>
+      </div>
+    </div>
+    
+    <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
+      <!-- Dropdown chọn đề -->
+      <select id="exam-select" onchange="changeExam(this.value)" class="px-3 py-1.5 text-sm font-semibold bg-slate-100 border border-slate-300 rounded-lg focus:outline-none focus:border-blue-500">
+      </select>
+      
+      <div id="timer-box" class="bg-blue-50 text-blue-700 font-mono font-bold px-3 py-1.5 rounded-lg border border-blue-200 text-sm sm:text-base">
+        60:00
+      </div>
+    </div>
+  </header>
+
+  <!-- Kết quả bài làm -->
+  <div id="result-banner" class="hidden max-w-3xl mx-auto mt-4 px-4">
+    <div class="bg-white rounded-xl shadow-md border-l-4 border-blue-600 p-5">
+      <h2 class="text-xl font-bold text-slate-800 mb-1">Kết Quả Bài Làm</h2>
+      <div class="flex items-baseline gap-3 my-2">
+        <span id="score-text" class="text-3xl font-extrabold text-blue-600">0.0 / 10</span>
+      </div>
+      <p class="text-sm text-slate-600">Xem phân tích chi tiết đáp án đúng/sai và lời giải ngay bên dưới mỗi câu.</p>
+    </div>
+  </div>
+
+  <!-- Khu vực hiển thị câu hỏi -->
+  <main id="quiz-container" class="max-w-3xl mx-auto px-4 mt-4 space-y-6"></main>
+
+  <!-- Nút nộp bài -->
+  <div id="submit-bar" class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 p-3 shadow-lg flex justify-center z-40">
+    <button onclick="submitQuiz()" class="w-full max-w-md bg-blue-600 hover:bg-blue-700 active:scale-95 transition text-white font-bold py-3 px-6 rounded-xl shadow">
+      NỘP BÀI & CHẤM ĐIỂM
+    </button>
+  </div>
+
+  <script>
+    // --- KHO DỮ LIỆU ĐẦY ĐỦ 35 CÂU CHO ĐỀ 1 & ĐỀ 2 ---
+    const ALL_EXAMS = {
+      de1: {
+        title: "Đề Thi Đại Số Tuyến Tính - Đề Số 1 (Cơ Bản)",
+        duration: 60,
+        questions: [
+          // PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN (25 CÂU)
+          {
+            id: 1, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho số phức $z = 1 + i$. Giá trị của $z^{2026}$ dưới dạng đại số là:",
+            options: ["$2^{1013}i$", "$-2^{1013}i$", "$2^{1013}$", "$-2^{1013}$"], answer: 0,
+            explanation: "$(1+i)^2 = 2i \\implies (1+i)^{2026} = (2i)^{1013} = 2^{1013}i$ (vì $1013 = 4 \\times 253 + 1$)."
+          },
+          {
+            id: 2, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận vuông $A$ cấp $3$ có $\\det(A) = -2$. Định thức của ma trận phụ hợp $\\det(A^*)$ bằng:",
+            options: ["$-4$", "$4$", "$-8$", "$8$"], answer: 1,
+            explanation: "Áp dụng công thức $\\det(A^*) = (\\det A)^{n-1} = (-2)^{3-1} = (-2)^2 = 4$."
+          },
+          {
+            id: 3, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Tổng tất cả các giá trị riêng của ma trận $A = \\begin{pmatrix} 3 & -1 & 5 \\\\ 2 & 4 & 7 \\\\ 0 & 0 & -1 \\end{pmatrix}$ là:",
+            options: ["$6$", "$8$", "$10$", "$5$"], answer: 0,
+            explanation: "Tổng các giá trị riêng bằng vết của ma trận: $\\operatorname{tr}(A) = 3 + 4 + (-1) = 6$."
+          },
+          {
+            id: 4, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho phép thế $\\sigma = \\begin{pmatrix} 1 & 2 & 3 & 4 \\\\ 3 & 1 & 4 & 2 \\end{pmatrix} \\in S_4$. Cấp của phép thế $\\sigma$ là:",
+            options: ["$2$", "$3$", "$4$", "$6$"], answer: 2,
+            explanation: "Phân tích $\\sigma$ thành chu trình rời $(1\\ 3\\ 4\\ 2)$ có độ dài $4 \\implies$ cấp bằng $4$."
+          },
+          {
+            id: 5, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ánh xạ $f: \\mathbb{R} \\to \\mathbb{R}$ xác định bởi $f(x) = x^3 - 3x$. Khẳng định nào sau đây là đúng?",
+            options: ["$f$ là đơn ánh và toàn ánh", "$f$ không là đơn ánh nhưng là toàn ánh", "$f$ là đơn ánh nhưng không là toàn ánh", "$f$ không là đơn ánh và không là toàn ánh"], answer: 1,
+            explanation: "Đạo hàm $f'(x) = 3x^2 - 3$ đổi dấu $\\implies$ không đơn ánh; $\\lim_{x\\to\\pm\\infty} f(x) = \\pm\\infty \\implies$ toàn ánh."
+          },
+          {
+            id: 6, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận $A = \\begin{pmatrix} 2 & 1 \\\\ 0 & 2 \\end{pmatrix}$. Khẳng định nào đúng về khả năng chéo hóa của $A$?",
+            options: ["$A$ chéo hóa được trên $\\mathbb{R}$", "$A$ không chéo hóa được trên $\\mathbb{R}$", "$A$ khả nghịch nhưng không chéo hóa được", "$A$ là ma trận đối xứng"], answer: 1,
+            explanation: "Giá trị riêng $\\lambda = 2$ bội đại số là $2$, nhưng $\\dim(E_2) = 2 - \\operatorname{rank}(A-2I) = 1 < 2 \\implies$ không chéo hóa được."
+          },
+          {
+            id: 7, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận vuông $A$ cấp $n$ thỏa mãn $A^2 = I$. Khẳng định nào sau đây là <b>sai</b>?",
+            options: ["$\\det(A) = 1$ hoặc $\\det(A) = -1$", "$A$ luôn khả nghịch", "$A = I$ hoặc $A = -I$", "$A^{-1} = A$"], answer: 2,
+            explanation: "$A^2 = I \\implies \\det(A)^2 = 1 \\implies \\det(A) = \\pm 1$. Không suy ra bắt buộc $A=I$ hoặc $A=-I$."
+          },
+          {
+            id: 8, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho không gian véc-tơ $V$ có chiều $\\dim(V) = 4$. Hệ gồm 5 véc-tơ bất kỳ trong $V$ sẽ luôn:",
+            options: ["Lập thành cơ sở", "Độc lập tuyến tính", "Phụ thuộc tuyến tính", "Sinh ra không gian $V$"], answer: 2,
+            explanation: "Số véc-tơ vượt quá số chiều không gian thì hệ véc-tơ luôn phụ thuộc tuyến tính."
+          },
+          {
+            id: 9, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho hệ thuần túy $AX = 0$ với $A$ cấp $3 \\times 5$, biết $\\operatorname{rank}(A) = 2$. Số chiều không gian nghiệm là:",
+            options: ["$1$", "$2$", "$3$", "$5$"], answer: 2,
+            explanation: "$\\dim(S) = n - \\operatorname{rank}(A) = 5 - 2 = 3$."
+          },
+          {
+            id: 10, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho hai ma trận vuông $A, B$ cùng cấp $n$ và khả nghịch. Khẳng định nào sau đây đúng?",
+            options: ["$(AB)^{-1} = A^{-1}B^{-1}$", "$(AB)^T = A^T B^T$", "$\\det(A+B) = \\det(A)+\\det(B)$", "$(AB)^{-1} = B^{-1}A^{-1}$"], answer: 3,
+            explanation: "Công thức nghịch đảo của tích ma trận đổi thứ tự: $(AB)^{-1} = B^{-1}A^{-1}$."
+          },
+          {
+            id: 11, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận $A = \\begin{pmatrix} 1 & 2 & 3 \\\\ 0 & 4 & 5 \\\\ 0 & 0 & 6 \\end{pmatrix}$. Tích các giá trị riêng bằng:",
+            options: ["$6$", "$12$", "$24$", "$0$"], answer: 2,
+            explanation: "Tích các giá trị riêng bằng tích đường chéo chính: $1 \\times 4 \\times 6 = 24$."
+          },
+          {
+            id: 12, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Tìm điều kiện của $m$ để hệ $S = \\{(1,1,1), (1,2,3), (1,3,m)\\}$ là cơ sở của $\\mathbb{R}^3$:",
+            options: ["$m \\neq 5$", "$m = 5$", "$m \\neq 0$", "$m \\neq 3$"], answer: 0,
+            explanation: "Định thức lập bởi 3 véc-tơ phải khác 0 $\\implies m - 5 \\neq 0 \\implies m \\neq 5$."
+          },
+          {
+            id: 13, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ánh xạ $f(x, y) = (x + y, 2x - y)$. Ma trận của $f$ trong cơ sở chính tắc là:",
+            options: ["$\\begin{pmatrix} 1 & 1 \\\\ 2 & -1 \\end{pmatrix}$", "$\\begin{pmatrix} 1 & 2 \\\\ 1 & -1 \\end{pmatrix}$", "$\\begin{pmatrix} -1 & 1 \\\\ 2 & 1 \\end{pmatrix}$", "$\\begin{pmatrix} 1 & -1 \\\\ 2 & 1 \\end{pmatrix}$"], answer: 0,
+            explanation: "Tác dụng $f$ lên véc-tơ cơ sở chính tắc thu được các cột của ma trận là $(1,2)^T$ và $(1,-1)^T$."
+          },
+          {
+            id: 14, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận $A$ cấp $3$ có $\\det(A) = 5$. Giá trị của $\\det(2A)$ bằng:",
+            options: ["$10$", "$15$", "$20$", "$40$"], answer: 3,
+            explanation: "$\\det(2A) = 2^3 \\cdot \\det(A) = 8 \\times 5 = 40$."
+          },
+          {
+            id: 15, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho dạng toàn phương $q(x_1, x_2) = x_1^2 + 4x_1x_2 + m x_2^2$. Tìm $m$ để dạng toàn phương xác định dương:",
+            options: ["$m > 4$", "$m < 4$", "$m = 4$", "$m \\geq 4$"], answer: 0,
+            explanation: "Các định thức con chính dương $\\implies \\Delta_2 = m - 4 > 0 \\implies m > 4$."
+          },
+          {
+            id: 16, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Không gian nghiệm $S$ của hệ thuần túy có $n = 5$ và $\\operatorname{rank}(A) = 3$. Số chiều $\\dim(S)$ là:",
+            options: ["$2$", "$3$", "$5$", "$8$"], answer: 0,
+            explanation: "$\\dim(S) = 5 - 3 = 2$."
+          },
+          {
+            id: 17, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Định thức Vandermonde cấp 3 với các biến $1, 2, 3$ có giá trị bằng:",
+            options: ["$1$", "$2$", "$4$", "$6$"], answer: 1,
+            explanation: "Công thức Vandermonde $(2-1)(3-1)(3-2) = 1 \\times 2 \\times 1 = 2$."
+          },
+          {
+            id: 18, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Phát biểu nào sau đây luôn đúng đối với hạng của tích hai ma trận?",
+            options: ["$\\operatorname{rank}(A+B) = \\operatorname{rank}(A)+\\operatorname{rank}(B)$", "$\\operatorname{rank}(AB) = \\operatorname{rank}(A)\\operatorname{rank}(B)$", "$\\operatorname{rank}(AB) \\leq \\min(\\operatorname{rank}(A), \\operatorname{rank}(B))$", "$\\det(AB) = \\det(A)+\\det(B)$"], answer: 2,
+            explanation: "Hạng của tích hai ma trận không vượt quá hạng của mỗi thừa số."
+          },
+          {
+            id: 19, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho số phức $z = -1 - i\\sqrt{3}$. Dạng lượng giác của $z$ là:",
+            options: ["$2(\\cos\\frac{\\pi}{3} + i\\sin\\frac{\\pi}{3})$", "$2(\\cos\\frac{4\\pi}{3} + i\\sin\\frac{4\\pi}{3})$", "$2(\\cos\\frac{2\\pi}{3} + i\\sin\\frac{2\\pi}{3})$", "$2(\\cos\\frac{5\\pi}{6} + i\\sin\\frac{5\\pi}{6})$"], answer: 1,
+            explanation: "Mô-đun $r = 2$, góc $\\varphi = \\pi + \\pi/3 = 4\\pi/3$."
+          },
+          {
+            id: 20, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Phép thế $\\sigma = \\begin{pmatrix} 1 & 2 & 3 \\\\ 2 & 3 & 1 \\end{pmatrix} \\in S_3$ là phép thế:",
+            options: ["Chẵn (dấu $+1$)", "Lẻ (dấu $-1$)", "Vừa chẵn vừa lẻ", "Không xác định"], answer: 0,
+            explanation: "Phân tích thành 2 phép hoán vị đổi chỗ nên là phép thế chẵn."
+          },
+          {
+            id: 21, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận $A = \\begin{pmatrix} 0 & 1 \\\\ -1 & 0 \\end{pmatrix}$. Tính $A^{2026}$:",
+            options: ["$A$", "$-A$", "$I$", "$-I$"], answer: 3,
+            explanation: "$A^2 = -I, A^4 = I \\implies A^{2026} = (A^4)^{506} A^2 = -I$."
+          },
+          {
+            id: 22, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Khẳng định nào sau đây là <b>sai</b> về nhân $\\ker(f)$ của ánh xạ tuyến tính $f: V \\to W$?",
+            options: ["$\\ker(f)$ là không gian con của $V$", "Véc-tơ không thuộc $\\ker(f)$", "$f$ đơn ánh khi và chỉ khi $\\ker(f)=\\{0_V\\}$", "$\\ker(f)$ luôn có chiều bằng chiều của $W$"], answer: 3,
+            explanation: "Chiều của không gian nhân không bắt buộc phải bằng chiều của không gian đích $W$."
+          },
+          {
+            id: 23, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Nếu $\\lambda$ là giá trị riêng của $A$ ứng với véc-tơ riêng $X$, thì $\\lambda^3$ là giá trị riêng của:",
+            options: ["$3A$", "$A^3$", "$A + 3I$", "$3I - A$"], answer: 1,
+            explanation: "Nếu $AX = \\lambda X \\implies A^3X = \\lambda^3 X$."
+          },
+          {
+            id: 24, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Điều kiện cần và đủ để hệ 3 véc-tơ trong $\\mathbb{R}^3$ lập thành cơ sở là định thức lập bởi chúng phải:",
+            options: ["Bằng $0$", "Khác $0$", "Lớn hơn $0$", "Bằng $1$"], answer: 1,
+            explanation: "Định thức khác 0 tương đương hệ độc lập tuyến tính, tạo thành cơ sở của $\\mathbb{R}^3$."
+          },
+          {
+            id: 25, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho $A = \\operatorname{diag}(2, 5, -1)$. Tổng các phần tử trên đường chéo chính của $A^{-1}$ bằng:",
+            options: ["$\\frac{3}{10}$", "$\\frac{7}{10}$", "$6$", "$-\\frac{3}{10}$"], answer: 3,
+            explanation: "$A^{-1} = \\operatorname{diag}(1/2, 1/5, -1) \\implies 1/2 + 1/5 - 1 = -3/10$."
+          },
+
+          // PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI (4 CÂU)
+          {
+            id: 26, section: "PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI", type: "tf", points: 1.0,
+            question: "Cho ma trận $A = \\begin{pmatrix} 1 & 2 \\\\ 2 & 1 \\end{pmatrix}$. Xét tính đúng/sai:",
+            subQuestions: [
+              { label: "a)", text: "Định thức của ma trận $A$ bằng $-3$.", answer: true },
+              { label: "b)", text: "Các giá trị riêng của $A$ là $\\lambda_1 = -1$ và $\\lambda_2 = 3$.", answer: true },
+              { label: "c)", text: "Ma trận $A$ không thể chéo hóa được trên $\\mathbb{R}$.", answer: false },
+              { label: "d)", text: "Mô-đun của tích các giá trị riêng bằng $3$.", answer: true }
+            ],
+            explanation: "• a) $\\det(A) = -3$ (Đ).<br>• b) Trị riêng $-1, 3$ (Đ).<br>• c) Có 2 trị riêng phân biệt nên chéo hóa được (S).<br>• d) $|-3| = 3$ (Đ)."
+          },
+          {
+            id: 27, section: "PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI", type: "tf", points: 1.0,
+            question: "Cho hệ thuần túy $AX = 0$ với $A$ cấp $4 \\times 5$, $\\operatorname{rank}(A) = 3$. Xét tính đúng/sai:",
+            subQuestions: [
+              { label: "a)", text: "Hệ luôn có vô số nghiệm.", answer: true },
+              { label: "b)", text: "Số chiều không gian nghiệm bằng $2$.", answer: true },
+              { label: "c)", text: "Hạng của chuyển vị $\\operatorname{rank}(A^T) = 4$.", answer: false },
+              { label: "d)", text: "Hệ có thể có nghiệm duy nhất nếu đổi vế phải.", answer: false }
+            ],
+            explanation: "• a) Số ẩn nhiều hơn phương trình nên luôn có vô số nghiệm (Đ).<br>• b) $\\dim(S) = 5-3=2$ (Đ).<br>• c) $\\operatorname{rank}(A^T) = \\operatorname{rank}(A) = 3$ (S).<br>• d) Vẫn nhiều ẩn hơn phương trình nên không thể có nghiệm duy nhất (S)."
+          },
+          {
+            id: 28, section: "PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI", type: "tf", points: 1.0,
+            question: "Cho ánh xạ $f: \\mathbb{R}^3 \\to \\mathbb{R}^3$ có ma trận $M_f = \\begin{pmatrix} 1 & 0 & 1 \\\\ 0 & 2 & 0 \\\\ 1 & 0 & 1 \\end{pmatrix}$. Xét tính đúng/sai:",
+            subQuestions: [
+              { label: "a)", text: "Hạng của ánh xạ $\\operatorname{rank}(f) = 2$.", answer: true },
+              { label: "b)", text: "Số chiều nhân $\\dim(\\ker(f)) = 1$.", answer: true },
+              { label: "c)", text: "Véc-tơ $(0, 1, 0)^T$ thuộc nhân $\\ker(f)$.", answer: false },
+              { label: "d)", text: "Ánh xạ $f$ là song ánh.", answer: false }
+            ],
+            explanation: "• a) $\\operatorname{rank} = 2$ (Đ).<br>• b) $\\dim(\\ker) = 3-2=1$ (Đ).<br>• c) $M_f(0,1,0)^T = (0,2,0)^T \\neq 0$ (S).<br>• d) Suy biến nên không phải song ánh (S)."
+          },
+          {
+            id: 29, section: "PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI", type: "tf", points: 1.0,
+            question: "Cho ma trận $B = \\begin{pmatrix} 3 & 1 \\\\ 0 & 3 \\end{pmatrix}$. Xét tính đúng/sai:",
+            subQuestions: [
+              { label: "a)", text: "$B$ có duy nhất một giá trị riêng $\\lambda = 3$ bội $2$.", answer: true },
+              { label: "b)", text: "Số chiều không gian riêng ứng với $\\lambda = 3$ bằng $2$.", answer: false },
+              { label: "c)", text: "Ma trận $B$ chéo hóa được trên $\\mathbb{R}$.", answer: false },
+              { label: "d)", text: "Định thức $\\det(B^2) = 81$.", answer: true }
+            ],
+            explanation: "• a) Trị riêng $\\lambda=3$ kép (Đ).<br>• b) $\\dim(E_3) = 1 \\neq 2$ (S).<br>• c) Không chéo hóa được (S).<br>• d) $\\det(B)=9 \\implies \\det(B^2)=81$ (Đ)."
+          },
+
+          // PHẦN III: TRẢ LỜI NGẮN (6 CÂU)
+          {
+            id: 30, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.16,
+            question: "Cho ma trận tam giác dưới $A = \\begin{pmatrix} 5 & 0 & 0 \\\\ 1 & 2 & 0 \\\\ 3 & 4 & -3 \\end{pmatrix}$. Tính $\\det(A)$.",
+            answer: "-30",
+            explanation: "Định thức bằng tích đường chéo chính: $5 \\times 2 \\times (-3) = -30$."
+          },
+          {
+            id: 31, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.16,
+            question: "Cho hệ thuần túy có ma trận hệ số hạng $2$, số ẩn $5$. Tìm số chiều không gian nghiệm $\\dim(S)$.",
+            answer: "3",
+            explanation: "$\\dim(S) = 5 - 2 = 3$."
+          },
+          {
+            id: 32, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.16,
+            question: "Cho ma trận $B = \\begin{pmatrix} 3 & 1 \\\\ 0 & 3 \\end{pmatrix}$. Tính tổng các phần tử của $B^2$.",
+            answer: "24",
+            explanation: "$B^2 = \\begin{pmatrix} 9 & 6 \\\\ 0 & 9 \\end{pmatrix} \\implies$ tổng các phần tử = $9 + 6 + 0 + 9 = 24$."
+          },
+          {
+            id: 33, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.16,
+            question: "Cho ma trận vuông $A$ cấp $3$ có $\\det(A) = 4$. Tính định thức $\\det(2A^{-1})$.",
+            answer: "2",
+            explanation: "$\\det(2A^{-1}) = 2^3 \\cdot \\frac{1}{4} = 2$."
+          },
+          {
+            id: 34, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.16,
+            question: "Cho phép thế $\\sigma = \\begin{pmatrix} 1 & 2 & 3 & 4 \\\\ 3 & 1 & 4 & 2 \\end{pmatrix} \\in S_4$. Tính cấp của $\\sigma$.",
+            answer: "4",
+            explanation: "Chu trình rời độ dài 4 nên cấp bằng 4."
+          },
+          {
+            id: 35, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.20,
+            question: "Cho ma trận $A = \\begin{pmatrix} 1 & 1 \\\\ 0 & 1 \\end{pmatrix}$. Tìm tổng tất cả các phần tử của $A^{10}$.",
+            answer: "12",
+            explanation: "$A^{10} = \\begin{pmatrix} 1 & 10 \\\\ 0 & 1 \\end{pmatrix} \\implies$ tổng các phần tử = $1 + 10 + 0 + 1 = 12$."
+          }
+        ]
+      },
+      de2: {
+        title: "Đề Thi Đại Số Tuyến Tính - Đề Số 2 (Nâng Cao)",
+        duration: 60,
+        questions: [
+          // PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN (25 CÂU)
+          {
+            id: 1, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho $A$ là ma trận trực giao cấp $n$ ($A^T A = I$). Khẳng định nào sau đây là <b>sai</b>?",
+            options: ["$\\det(A) = 1$ hoặc $\\det(A) = -1$", "$A^{-1} = A^T$", "$\\det(A) = 0$", "Các cột của $A$ tạo thành hệ trực chuẩn"], answer: 2,
+            explanation: "Ma trận trực giao luôn có định thức bằng $1$ hoặc $-1$, do đó $\\det(A) = 0$ là sai."
+          },
+          {
+            id: 2, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận vuông $A$ cấp $n$ thỏa mãn phương trình đặc trưng $A^2 - 5A + 6I = 0$. Ma trận $A^{-1}$ là:",
+            options: ["$\\frac{1}{6}(5I - A)$", "$\\frac{1}{5}(6I - A)$", "$5I - A$", "$A - 5I$"], answer: 0,
+            explanation: "Từ $A^2 - 5A + 6I = 0 \\implies 6I = A(5I - A) \\implies A^{-1} = \\frac{1}{6}(5I - A)$."
+          },
+          {
+            id: 3, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận thực phản đối xứng $A$ cấp $3$ ($A^T = -A$). Định thức của $A$ luôn bằng:",
+            options: ["$1$", "$-1$", "$0$", "$\\neq 0$"], answer: 2,
+            explanation: "Ma trận phản đối xứng cấp lẻ luôn có định thức bằng $0$."
+          },
+          {
+            id: 4, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Số chiều của không gian con gồm tất cả các ma trận đối xứng cấp $n$ là:",
+            options: ["$\\frac{n(n+1)}{2}$", "$\\frac{n(n-1)}{2}$", "$n^2 - n$", "$n^2$"], answer: 0,
+            explanation: "Số phần tử độc lập trên và trên đường chéo chính là $\\frac{n(n+1)}{2}$."
+          },
+          {
+            id: 5, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Số chiều của không gian con gồm các ma trận phản đối xứng cấp $n$ là:",
+            options: ["$\\frac{n(n+1)}{2}$", "$\\frac{n(n-1)}{2}$", "$n^2$", "$2n$"], answer: 1,
+            explanation: "Các phần tử trên đường chéo chính bằng 0, phần phía trên quyết định phần phía dưới nên số chiều là $\\frac{n(n-1)}{2}$."
+          },
+          {
+            id: 6, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ánh xạ tuyến tính $f: V \\to W$ với $\\dim(V)=5, \\dim(W)=3$. Số chiều tối thiểu của $\\ker(f)$ là:",
+            options: ["$0$", "$2$", "$3$", "$5$"], answer: 1,
+            explanation: "Theo định lý hạng - số hụt: $\\dim(\\ker) = 5 - \\operatorname{rank}(f)$. Do $\\operatorname{rank}(f) \\leq 3 \\implies \\dim(\\ker) \\geq 2$."
+          },
+          {
+            id: 7, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Đa thức tối tiểu $m_A(x)$ của ma trận $A = \\begin{pmatrix} 2 & 1 \\\\ 0 & 2 \\end{pmatrix}$ là:",
+            options: ["$(x-2)$", "$(x-2)^2$", "$(x-2)(x+2)$", "$x^2 - 4$"], answer: 1,
+            explanation: "Do $A$ không chéo hóa được nên nghiệm bội của đa thức đặc trưng phải xuất hiện với số mũ cao nhất trong đa thức tối tiểu: $(x-2)^2$."
+          },
+          {
+            id: 8, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Giá trị riêng của ma trận liên hợp $A^*$ ứng với giá trị riêng $\\lambda$ của $A$ ($\\det(A) \\neq 0$) là:",
+            options: ["$\\frac{\\det(A)}{\\lambda}$", "$\\lambda^{n-1}$", "$\\frac{\\lambda}{\\det(A)}$", "$\\lambda \\cdot \\det(A)$"], answer: 1,
+            explanation: "Công thức liên hệ ma trận phụ hợp: $A^* = \\det(A) A^{-1} \\implies$ trị riêng là $\\det(A) \\cdot \\lambda^{-1} = \\lambda^{n-1}$."
+          },
+          {
+            id: 9, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho $\|u\|=3, \|v\|=4$ và góc giữa chúng bằng $60^\\circ$. Tích vô hướng $\\langle u, v \\rangle$ bằng:",
+            options: ["$6$", "$12$", "$6\\sqrt{3}$", "$0$"], answer: 0,
+            explanation: "$\\langle u, v \\rangle = \\|u\\| \\|v\\| \\cos(60^\\circ) = 3 \\times 4 \\times \\frac{1}{2} = 6$."
+          },
+          {
+            id: 10, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Giá trị riêng của một ma trận thực đối xứng luôn có tính chất:",
+            options: ["Thuần ảo", "Thực", "Phức không thực", "Bằng 0 hoặc 1"], answer: 1,
+            explanation: "Mọi ma trận thực đối xứng đều có các giá trị riêng là số thực."
+          },
+          {
+            id: 11, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho dạng toàn phương $q(x_1, x_2) = 2x_1^2 + 4x_1x_2 + 5x_2^2$. Dạng toàn phương này là:",
+            options: ["Xác định dương", "Xác định âm", "Không xác định dấu", "Nửa xác định dương"], answer: 0,
+            explanation: "Các định thức con chính: $\\Delta_1 = 2 > 0, \\Delta_2 = 6 > 0 \\implies$ xác định dương."
+          },
+          {
+            id: 12, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Phát biểu nào sau đây đúng về vết của ma trận?",
+            options: ["$\\operatorname{tr}(AB) \\neq \\operatorname{tr}(BA)$", "$\\operatorname{tr}(AB) = \\operatorname{tr}(BA)$", "$\\operatorname{tr}(AB) = \\operatorname{tr}(A)\\operatorname{tr}(B)$", "$\\operatorname{tr}(A^T) = -\\operatorname{tr}(A)$"], answer: 1,
+            explanation: "Tính chất giao hoán của vết trong tích ma trận: $\\operatorname{tr}(AB) = \\operatorname{tr}(BA)$."
+          },
+          {
+            id: 13, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Công thức Grassmann tính chiều của tổng hai không gian con $W_1 + W_2$ là:",
+            options: ["$\\dim(W_1) + \\dim(W_2) - \\dim(W_1 \\cap W_2)$", "$\\dim(W_1) + \\dim(W_2) + \\dim(W_1 \\cap W_2)$", "$\\dim(W_1) - \\dim(W_2)$", "$\\dim(W_1 \\cap W_2)$"], answer: 0,
+            explanation: "Công thức Grassmann: $\\dim(W_1 + W_2) = \\dim(W_1) + \\dim(W_2) - \\dim(W_1 \\cap W_2)$."
+          },
+          {
+            id: 14, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Hệ phương trình $AX = B$ với $A$ vuông cấp $n$ có nghiệm duy nhất khi và chỉ khi:",
+            options: ["$\\det(A) = 0$", "$\\det(A) \\neq 0$", "$\\operatorname{rank}(A) < n$", "$\\operatorname{rank}(A|B) > \\operatorname{rank}(A)$"], answer: 1,
+            explanation: "Hệ Cramer có nghiệm duy nhất khi $\\det(A) \\neq 0$."
+          },
+          {
+            id: 15, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Ma trận lũy linh $A$ thỏa mãn $A^3 = 0$ có các giá trị riêng chỉ có thể là:",
+            options: ["Chỉ có $\\lambda = 0$", "$\\lambda = 1$ hoặc $-1$", "Mọi số thực", "Không có giá trị riêng"], answer: 0,
+            explanation: "Mọi giá trị riêng của ma trận lũy linh đều bằng 0."
+          },
+          {
+            id: 16, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Số chiều của không gian véc-tơ các đa thức bậc tối đa $2$, ký hiệu $P_2[x]$, là:",
+            options: ["$1$", "$2$", "$3$", "$4$"], answer: 2,
+            explanation: "Cơ sở chính tắc là $\{1, x, x^2\}$, gồm 3 véc-tơ nên chiều bằng 3."
+          },
+          {
+            id: 17, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Phát biểu nào sau đây là <b>sai</b>?",
+            options: ["Nếu $A$ khả nghịch thì $0$ không là giá trị riêng", "Giá trị riêng của $A$ và $A^T$ là giống nhau", "Định thức bằng tích các giá trị riêng tính theo bội", "Mọi ma trận vuông đều chéo hóa được trên $\\mathbb{R}$"], answer: 3,
+            explanation: "Không phải mọi ma trận vuông đều chéo hóa được trên trường số thực (ví dụ ma trận Jordan)."
+          },
+          {
+            id: 18, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Định lý Hạng - Số hụt (Rank-Nullity Theorem) phát biểu rằng:",
+            options: ["$\\dim(\\ker(f)) + \\dim(\\operatorname{Im}(f)) = \\dim(V)$", "$\\dim(\\ker(f)) - \\dim(\\operatorname{Im}(f)) = \\dim(V)$", "$\\dim(\\ker(f)) + \\dim(\\operatorname{Im}(f)) = \\dim(W)$", "$\\dim(\\ker) \\cdot \\dim(\\operatorname{Im}) = \\dim(V)$"], answer: 0,
+            explanation: "Định lý Hạng - Số hụt: $\\dim(\\ker(f)) + \\dim(\\operatorname{Im}(f)) = \\dim(V)$."
+          },
+          {
+            id: 19, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Tất cả các giá trị riêng của ma trận biểu diễn dạng toàn phương xác định dương phải:",
+            options: ["Lớn hơn $0$", "Nhỏ hơn $0$", "Bằng $0$", "Trái dấu nhau"], answer: 0,
+            explanation: "Dạng toàn phương xác định dương tương đương mọi giá trị riêng của ma trận đối xứng biểu diễn nó đều dương."
+          },
+          {
+            id: 20, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Tổng các giá trị riêng của ma trận $A = \\begin{pmatrix} 1 & 2 \\\\ 3 & 4 \\end{pmatrix}$ bằng:",
+            options: ["$5$", "$-2$", "$4$", "$3$"], answer: 0,
+            explanation: "Tổng giá trị riêng bằng vết ma trận: $1 + 4 = 5$."
+          },
+          {
+            id: 21, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho hệ véc-tơ gồm 3 véc-tơ độc lập tuyến tính trong $\\mathbb{R}^3$. Trực chuẩn hóa Gram-Schmidt thu được mấy véc-tơ trực chuẩn?",
+            options: ["$1$", "$2$", "$3$", "Không xác định"], answer: 2,
+            explanation: "Quá trình trực chuẩn hóa bảo toàn số lượng véc-tơ ban đầu, thu được 3 véc-tơ trực chuẩn."
+          },
+          {
+            id: 22, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Khoảng cách từ một véc-tơ $x$ đến không gian con $W$ tính qua hình chiếu vuông góc $p_W(x)$ là:",
+            options: ["\\|x - p_W(x)\\|", "\\|x + p_W(x)\\|", "\\|p_W(x)\\|", "\\|x\\| - \\|p_W(x)\\|"], answer: 0,
+            explanation: "Khoảng cách ngắn nhất từ véc-tơ đến không gian con là chuẩn của hiệu véc-tơ và hình chiếu vuông góc."
+          },
+          {
+            id: 23, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Hai ma trận đồng dạng $A$ và $B$ ($B = P^{-1}AP$) có tính chất nào sau đây?",
+            options: ["$A = B$", "Cùng đa thức đặc trưng", "Cùng ma trận chuyển cơ sở bất kỳ", "Trái dấu nhau"], answer: 1,
+            explanation: "Hai ma trận đồng dạng có chung đa thức đặc trưng, cùng định thức, cùng vết."
+          },
+          {
+            id: 24, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận vuông $A$ cấp $n$. Giá trị của $\\det(kA)$ với $k \\in \\mathbb{R}$ là:",
+            options: ["$k \\det(A)$", "$k^n \\det(A)$", "$nk \\det(A)$", "$\\det(A)$"], answer: 1,
+            explanation: "Khi nhân hằng số $k$ với ma trận cấp $n$, định thức được nhân lên $k^n$."
+          },
+          {
+            id: 25, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Trong không gian Euclid, bất đẳng thức Cauchy-Schwarz dạng tích vô hướng biểu diễn là:",
+            options: ["$|\\langle x, y \\rangle| \\leq \\|x\\| \\|y\\|$", "$|\\langle x, y \\rangle| \\geq \\|x\\| \\|y\\|$", "$\\langle x, y \\rangle = \\|x\\| \\|y\\|$", "$\\langle x, y \\rangle = 0$"], answer: 0,
+            explanation: "Bất đẳng thức Cauchy-Schwarz: $|\\langle x, y \\rangle| \\leq \\|x\\| \\|y\\|\\."
+          },
+
+          // PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI (4 CÂU)
+          {
+            id: 26, section: "PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI", type: "tf", points: 1.0,
+            question: "Cho ma trận thực đối xứng $A = \\begin{pmatrix} 2 & 1 \\\\ 1 & 2 \\end{pmatrix}$. Xét tính đúng/sai:",
+            subQuestions: [
+              { label: "a)", text: "Ma trận $A$ luôn chéo hóa được bằng ma trận trực giao.", answer: true },
+              { label: "b)", text: "Các giá trị riêng của $A$ là $\\lambda_1 = 1$ và $\\lambda_2 = 3$.", answer: true },
+              { label: "c)", text: "Định thức của ma trận $A$ bằng $5$.", answer: false },
+              { label: "d)", text: "Dạng toàn phương ứng với $A$ là xác định âm.", answer: false }
+            ],
+            explanation: "• a) Định lý phổ (Đ).<br>• b) $\\lambda = 1, 3$ (Đ).<br>• c) $\\det(A) = 3 \\neq 5$ (S).<br>• d) Trị riêng dương nên xác định dương (S)."
+          },
+          {
+            id: 27, section: "PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI", type: "tf", points: 1.0,
+            question: "Cho dạng toàn phương $q(x_1, x_2, x_3) = 2x_1^2 + 3x_2^2 + 6x_3^2 - 4x_1x_2$. Xét tiêu chuẩn Sylvester:",
+            subQuestions: [
+              { label: "a)", text: "Định thức con chính cấp 1 bằng $2$.", answer: true },
+              { label: "b)", text: "Định thức con chính cấp 2 bằng $2$.", answer: true },
+              { label: "c)", text: "Định thức con chính cấp 3 bằng $12$.", answer: true },
+              { label: "d)", text: "Dạng toàn phương đã cho là xác định dương.", answer: true }
+            ],
+            explanation: "• a) $\\Delta_1 = 2$ (Đ).<br>• b) $\\Delta_2 = 2(3) - (-2)^2 = 2$ (Đ).<br>• c) $\\Delta_3 = 12$ (Đ).<br>• d) Các định thức con chính đều dương nên xác định dương (Đ)."
+          },
+          {
+            id: 28, section: "PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI", type: "tf", points: 1.0,
+            question: "Cho ma trận vuông $A$ cấp $3$ có đa thức đặc trưng $P(\\lambda) = -\\lambda^3 + 4\\lambda^2 - 5\\lambda + 2$. Xét định lý Cayley - Hamilton:",
+            subQuestions: [
+              { label: "a)", text: "Ma trận $A$ thỏa mãn phương trình ma trận $A^3 - 4A^2 + 5A - 2I = 0$.", answer: true },
+              { label: "b)", text: "Vết của ma trận $\\operatorname{tr}(A) = -4$.", answer: false },
+              { label: "c)", text: "Định thức của ma trận $\\det(A) = 2$.", answer: true },
+              { label: "d)", text: "Ma trận $A$ khả nghịch.", answer: true }
+            ],
+            explanation: "• a) Theo định lý Cayley - Hamilton (Đ).<br>• b) $\\operatorname{tr}(A) = 4$ (S).<br>• c) $\\det(A) = 2$ (Đ).<br>• d) $\\det(A) \\neq 0$ nên khả nghịch (Đ)."
+          },
+          {
+            id: 29, section: "PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI", type: "tf", points: 1.0,
+            question: "Cho không gian $\\mathbb{R}^3$ với $u = (1, 1, 0)$ và $v = (1, 0, 1)$. Xét tính đúng/sai:",
+            subQuestions: [
+              { label: "a)", text: "Tích vô hướng $\\langle u, v \\rangle = 1$.", answer: true },
+              { label: "b)", text: "Độ dài của $u$ bằng $\\sqrt{2}$.", answer: true },
+              { label: "c)", text: "Góc giữa $u$ và $v$ bằng $60^\\circ$.", answer: true },
+              { label: "d)", text: "Hai véc-tơ trực giao với nhau.", answer: false }
+            ],
+            explanation: "• a) $\\langle u, v \\rangle = 1$ (Đ).<br>• b) $\\|u\\| = \\sqrt{2}$ (Đ).<br>• c) $\\cos\\theta = 1/2 \\implies \\theta = 60^\\circ$ (Đ).<br>• d) Tích vô hướng khác 0 nên không trực giao (S)."
+          },
+
+          // PHẦN III: TRẢ LỜI NGẮN (6 CÂU)
+          {
+            id: 30, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.16,
+            question: "Cho ma trận đối xứng $A = \\begin{pmatrix} 2 & 1 \\\\ 1 & 2 \\end{pmatrix}$. Tính giá trị riêng lớn nhất của $A$.",
+            answer: "3",
+            explanation: "Các giá trị riêng của $A$ là $1$ và $3$, lớn nhất là $3$."
+          },
+          {
+            id: 31, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.16,
+            question: "Cho ma trận $A$ cấp $3$ có các giá trị riêng $\\lambda_1 = 1, \\lambda_2 = 2, \\lambda_3 = -3$. Tính vết $\\operatorname{tr}(A^2)$.",
+            answer: "14",
+            explanation: "$\\operatorname{tr}(A^2) = 1^2 + 2^2 + (-3)^2 = 14$."
+          },
+          {
+            id: 32, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.16,
+            question: "Cho ánh xạ tuyến tính $f: \\mathbb{R}^3 \\to \\mathbb{R}^3$ có $\\dim(\\operatorname{Im}(f)) = 2$. Tính số chiều $\\dim(\\ker(f))$.",
+            answer: "1",
+            explanation: "$\\dim(\\ker(f)) = \\dim(V) - \\dim(\\operatorname{Im}(f)) = 3 - 2 = 1$."
+          },
+          {
+            id: 33, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.16,
+            question: "Cho dạng toàn phương $q(x_1, x_2) = x_1^2 + 6x_1x_2 + 9x_2^2$. Tìm hạng của dạng toàn phương này.",
+            answer: "1",
+            explanation: "$q(x_1, x_2) = (x_1 + 3x_2)^2$, là bình phương của một dạng tuyến tính độc lập nên hạng bằng 1."
+          },
+          {
+            id: 34, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.16,
+            question: "Cho véc-tơ $x = (3, 4)$ trong không gian Euclid $\\mathbb{R}^2$. Tính chuẩn $\\|x\\|$.",
+            answer: "5",
+            explanation: "$\\|x\\| = \\sqrt{3^2 + 4^2} = 5$."
+          },
+          {
+            id: 35, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.20,
+            question: "Cho ma trận vuông $A$ cấp $2$ thỏa mãn $A^2 - 3A + 2I = 0$ ($A \\neq I, A \\neq 2I$). Tính định thức $\\det(A)$.",
+            answer: "2",
+            explanation: "Phương trình đặc trưng nhận các giá trị riêng $\\lambda = 1, 2$. Định thức bằng tích các giá trị riêng: $1 \\times 2 = 2$."
+          }
+        ]
+      },
+      de3: {
+        title: "Đề Thi Đại Số Tuyến Tính - Đề Số 3 (Không Gian & Ánh Xạ)",
+        duration: 60,
+        questions: [
+          // PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN (25 CÂU)
+          {
+            id: 1, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho $f: V \\to W$ là một ánh xạ tuyến tính giữa hai không gian véc-tơ. Khẳng định nào sau đây là <b>sai</b>?",
+            options: ["$f(0_V) = 0_W$", "$f(u + v) = f(u) + f(v)$", "$f(\\alpha u) = \\alpha f(u)$", "$f(0_V) = 1_W$"], answer: 3,
+            explanation: "Ánh xạ tuyến tính luôn biến véc-tơ không thành véc-tơ không ($f(0_V) = 0_W$), nên khẳng định $f(0_V) = 1_W$ là sai."
+          },
+          {
+            id: 2, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ánh xạ tuyến tính $f: \\mathbb{R}^2 \\to \\mathbb{R}^2$ xác định bởi $f(x, y) = (2x - y, x + 3y)$. Ma trận của $f$ trong cơ sở chính tắc là:",
+            options: ["$\\begin{pmatrix} 2 & -1 \\\\ 1 & 3 \\end{pmatrix}$", "$\\begin{pmatrix} 2 & 1 \\\\ -1 & 3 \\end{pmatrix}$", "$\\begin{pmatrix} 1 & 3 \\\\ 2 & -1 \\end{pmatrix}$", "$\\begin{pmatrix} -1 & 2 \\\\ 3 & 1 \\end{pmatrix}$"], answer: 0,
+            explanation: "Tác dụng ánh xạ lên các véc-tơ cơ sở chính tắc thu được các cột của ma trận là $(2, 1)^T$ và $(-1, 3)^T$."
+          },
+          {
+            id: 3, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Số chiều của không gian nhân $\\dim(\\ker(f))$ trong lý thuyết ánh xạ tuyến tính còn được gọi là gì?",
+            options: ["Hạng của ánh xạ (Rank)", "Số hụt của ánh xạ (Nullity)", "Vết của ánh xạ", "Định thức của ánh xạ"], answer: 1,
+            explanation: "Theo định nghĩa, chiều của không gian nhân gọi là số hụt (nullity), còn chiều của không gian ảnh gọi là hạng (rank)."
+          },
+          {
+            id: 4, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ánh xạ tuyến tính $f: \\mathbb{R}^3 \\to \\mathbb{R}^2$ có ma trận $M = \\begin{pmatrix} 1 & 2 & -1 \\\\ 0 & 1 & 3 \\end{pmatrix}$. Hạng $\\operatorname{rank}(f)$ bằng:",
+            options: ["$0$", "$1$", "$2$", "$3$"], answer: 2,
+            explanation: "Hạng của ánh xạ bằng hạng của ma trận biểu diễn nó: $\\operatorname{rank}(M) = 2$."
+          },
+          {
+            id: 5, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho $W_1, W_2$ là hai không gian con hữu hạn chiều với $\\dim(W_1) = 3, \\dim(W_2) = 4$ và $\\dim(W_1 \\cap W_2) = 1$. Chiều của không gian tổng $\\dim(W_1 + W_2)$ bằng:",
+            options: ["$6$", "$7$", "$5$", "$8$"], answer: 0,
+            explanation: "Theo công thức Grassmann: $\\dim(W_1 + W_2) = \\dim(W_1) + \\dim(W_2) - \\dim(W_1 \\cap W_2) = 3 + 4 - 1 = 6$."
+          },
+          {
+            id: 6, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho hệ véc-tơ $S = \\{v_1, v_2, v_3\\}$ độc lập tuyến tính. Hệ véc-tơ nào sau đây có thể phụ thuộc tuyến tính?",
+            options: ["$\\{v_1, v_2\\}$", "$\\{v_1, v_1 + v_2, v_1 + v_2 + v_3\\}$", "$\\{v_1 + v_2, v_2 + v_3, v_3 + v_1, v_1 + v_2 + v_3\\}$", "Mọi hệ con của $S$"], answer: 2,
+            explanation: "Hệ gồm 4 véc-tơ trong không gian 3 chiều sẽ luôn luôn phụ thuộc tuyến tính."
+          },
+          {
+            id: 7, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận chuyển cơ sở $P$ từ cơ sở $B$ sang cơ sở $B'$. Hệ thức tọa độ của cùng một véc-tơ là:",
+            options: ["$X_B = P X_{B'}$", "$X_{B'} = P X_B$", "$X_B = P^{-1} X_{B'}$", "$X_{B'} = P^T X_B$"], answer: 0,
+            explanation: "Theo định nghĩa ma trận chuyển cơ sở, tọa độ trong cơ sở cũ bằng ma trận chuyển nhân với tọa độ cơ sở mới: $X_B = P X_{B'}$."
+          },
+          {
+            id: 8, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Hệ véc-tơ nào sau đây là cơ sở của không gian đa thức $P_2[x]$?",
+            options: ["$\\{1, x, x^2, 1+x\\}$", "$\\{1+x, x+x^2, 1+x^2\\}$", "$\\{1, 2x\\}$", "$\\{x, x^2\\}$"], answer: 1,
+            explanation: "Hệ gồm 3 đa thức độc lập tuyến tính bậc tối đa 2 lập thành cơ sở của $P_2[x]$."
+          },
+          {
+            id: 9, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ánh xạ tuyến tính $f: V \\to V$ có ma trận biểu diễn $A$. Ma trận của ánh xạ hợp thành $f \\circ f$ là:",
+            options: ["$2A$", "$A^2$", "$A^{-1}$", "$A^T$"], answer: 1,
+            explanation: "Ma trận của tích (hợp thành) hai ánh xạ tuyến tính bằng tích hai ma trận biểu diễn: $A \\cdot A = A^2$."
+          },
+          {
+            id: 10, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho hai ma trận đồng dạng $A$ và $B$. Khẳng định nào sau đây là <b>sai</b>?",
+            options: ["$\\det(A) = \\det(B)$", "$\\operatorname{tr}(A) = \\operatorname{tr}(B)$", "$A = B$", "Cùng đa thức đặc trưng"], answer: 2,
+            explanation: "Hai ma trận đồng dạng có cùng định thức, vết và đa thức đặc trưng, nhưng nói chung $A \\neq B$."
+          },
+          {
+            id: 11, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Bất đẳng thức Cauchy-Schwarz trong không gian Euclid phát biểu rằng:",
+            options: ["$|\\langle u, v \\rangle| \\le \\|u\\| \\|v\\|$", "$\\|u + v\\| \\le \\|u\\| + \\|v\\|$", "Cả A và B đều đúng", "Cả A và B đều sai"], answer: 2,
+            explanation: "Cả bất đẳng thức Cauchy-Schwarz và bất đẳng thức tam giác đều đúng trong không gian Euclid."
+          },
+          {
+            id: 12, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Khoảng cách giữa hai véc-tơ $u = (1, 2, 2)$ và $v = (4, 2, -2)$ trong $\\mathbb{R}^3$ là:",
+            options: ["$3$", "$4$", "$5$", "$6$"], answer: 2,
+            explanation: "$\\|u - v\\| = \\|( -3, 0, 4)\\| = \\sqrt{(-3)^2 + 0^2 + 4^2} = 5$."
+          },
+          {
+            id: 13, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Ánh xạ chiếu vuông góc lên trục hoành $Ox$ trong mặt phẳng có ma trận biểu diễn là:",
+            options: ["$\\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}$", "$\\begin{pmatrix} 1 & 0 \\\\ 0 & 0 \\end{pmatrix}$", "$\\begin{pmatrix} 0 & 0 \\\\ 0 & 1 \\end{pmatrix}$", "$\\begin{pmatrix} 0 & 1 \\\\ 1 & 0 \\end{pmatrix}$"], answer: 1,
+            explanation: "Phép chiếu $(x, y) \\to (x, 0)$ ứng với ma trận $\\begin{pmatrix} 1 & 0 \\\\ 0 & 0 \\end{pmatrix}$."
+          },
+          {
+            id: 14, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Số chiều của không gian véc-tơ các ma trận vuông cấp 2, ký hiệu $M_{2 \\times 2}(\\mathbb{R})$, là:",
+            options: ["$2$", "$3$", "$4$", "$5$"], answer: 2,
+            explanation: "Không gian này có 4 thành phần tự do nên số chiều bằng 4."
+          },
+          {
+            id: 15, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận vuông $A$ cấp $n$. Giá trị của định thức $\\det(kA)$ với $k \\in \\mathbb{R}$ là:",
+            options: ["$k \\det(A)$", "$k^n \\det(A)$", "$nk \\det(A)$", "$\\det(A)$"], answer: 1,
+            explanation: "Nhân một hằng số $k$ với ma trận cấp $n$ làm định thức nhân lên $k^n$."
+          },
+          {
+            id: 16, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Trong cơ sở trực chuẩn của không gian Euclid, tọa độ của véc-tơ $x$ tính bằng:",
+            options: ["$x_i = \\langle x, e_i \\rangle$", "$x_i = \\|x\\| \\|e_i\\|$", "$x_i = \\frac{\\langle x, e_i \\rangle}{\\|x\\|}$", "$x_i = \\langle e_i, e_i \\rangle$"], answer: 0,
+            explanation: "Đối với cơ sở trực chuẩn, tọa độ chính là tích vô hướng của véc-tơ với véc-tơ cơ sở."
+          },
+          {
+            id: 17, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Điều kiện cần và đủ để ánh xạ tuyến tính $f$ là một đơn ánh là:",
+            options: ["$\\ker(f) = \\{0_V\\}$", "$\\operatorname{Im}(f) = W$", "$\\dim(V) = \\dim(W)$", "$\\operatorname{rank}(f) = 0$"], answer: 0,
+            explanation: "Ánh xạ tuyến tính là đơn ánh khi và chỉ khi không gian nhân chỉ chứa véc-tơ không."
+          },
+          {
+            id: 18, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Đa thức đặc trưng $P(\\lambda) = \\det(A - \\lambda I)$ của ma trận cấp $n$ có tính chất:",
+            options: ["Là đa thức bậc $n$", "Hệ số của $\\lambda^n$ là $(-1)^n$", "Hằng số tự do là $\\det(A)$ (khi $\\lambda=0$)", "Cả ba ý trên đều đúng"], answer: 3,
+            explanation: "Tất cả các tính chất về bậc, hệ số cao nhất và hằng số tự do của đa thức đặc trưng đều chính xác."
+          },
+          {
+            id: 19, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Ma trận chuyển cơ sở giữa hai cơ sở bất kỳ của không gian véc-tơ luôn có tính chất:",
+            options: ["Là ma trận vuông suy biến", "Là ma trận vuông khả nghịch", "Là ma trận đối xứng", "Là ma trận đường chéo"], answer: 1,
+            explanation: "Ma trận chuyển cơ sở luôn vuông và khả nghịch (định thức khác 0)."
+          },
+          {
+            id: 20, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ánh xạ tuyến tính $f: \\mathbb{R}^3 \\to \\mathbb{R}^3$ có hạng $\\operatorname{rank}(f) = 3$. Khẳng định đúng là:",
+            options: ["$f$ là một đẳng cấu", "$f$ không là đơn ánh", "$\\operatorname{Im}(f) = \\{0\\}$", "Hệ có vô số nghiệm"], answer: 0,
+            explanation: "Hạng bằng chiều không gian nguồn và đích nên ánh xạ là song ánh (đẳng cấu)."
+          },
+          {
+            id: 21, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho hai ma trận vuông $A, B$ cấp $n$ thỏa mãn $AB = 0$. Ta suy ra:",
+            options: ["$A = 0$ hoặc $B = 0$", "$\\det(A) = 0$ hoặc $\\det(B) = 0$", "Cả hai ma trận phải suy biến", "$\\operatorname{rank}(A) + \\operatorname{rank}(B) \\le n$"], answer: 1,
+            explanation: "Tích hai ma trận bằng 0 suy ra định thức tích bằng 0, tức ít nhất một ma trận có định thức bằng 0."
+          },
+          {
+            id: 22, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Phát biểu nào sau đây là <b>sai</b> về tổng các giá trị riêng (tính theo bội)?",
+            options: ["Tổng các giá trị riêng bằng vết ma trận", "Tích các giá trị riêng bằng định thức", "Tổng các giá trị riêng luôn bằng tổng tất cả các phần tử của ma trận", "Trị riêng có thể là số phức với ma trận hệ số thực"], answer: 2,
+            explanation: "Tổng các giá trị riêng bằng vết (tổng đường chéo chính), không phải tổng tất cả các phần tử của ma trận."
+          },
+          {
+            id: 23, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ánh xạ đạo hàm $f(p(x)) = p'(x)$ trên không gian $P_2[x]$. Ma trận trong cơ sở $\{1, x, x^2\}$ là:",
+            options: ["$\\begin{pmatrix} 0 & 1 & 0 \\\\ 0 & 0 & 2 \\\\ 0 & 0 & 0 \\end{pmatrix}$", "$\\begin{pmatrix} 1 & 0 & 0 \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 1 \\end{pmatrix}$", "$\\begin{pmatrix} 0 & 0 & 0 \\\\ 1 & 0 & 0 \\\\ 0 & 2 & 0 \\end{pmatrix}$", "$\\begin{pmatrix} 0 & 1 & 2 \\\\ 0 & 0 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix}$"], answer: 0,
+            explanation: "Đạo hàm của $1$ là $0$, $x$ là $1$, $x^2$ là $2x$, sắp xếp theo cột ta được ma trận tam giác trên."
+          },
+          {
+            id: 24, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Không gian đối ngẫu $V^*$ của không gian véc-tơ hữu hạn chiều $V$ có tính chất:",
+            options: ["$\\dim(V^*) = \\dim(V)$", "$\\dim(V^*) = 0$", "$\\dim(V^*) = 2 \\dim(V)$", "Không gian đối ngẫu không có chiều"], answer: 0,
+            explanation: "Không gian đối ngẫu gồm các phiếm hàm tuyến tính có số chiều bằng đúng số chiều không gian ban đầu."
+          },
+          {
+            id: 25, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ánh xạ tuyến tính $f: V \\to W$. Nếu $\\dim(V) < \\dim(W)$, thì $f$ có thể là:",
+            options: ["Toàn ánh", "Đơn ánh", "Song ánh", "Chắc chắn là đẳng cấu"], answer: 1,
+            explanation: "Không gian nguồn nhỏ hơn không gian đích thì ánh xạ không thể là toàn ánh, nhưng có thể là đơn ánh."
+          },
+
+          // PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI (4 CÂU)
+          {
+            id: 26, section: "PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI", type: "tf", points: 1.0,
+            question: "Cho hệ véc-tơ $S = \\{(1, 0, 1), (0, 1, 1), (1, 1, 0)\\}$ trong $\\mathbb{R}^3$. Xét tính đúng/sai:",
+            subQuestions: [
+              { label: "a)", text: "Hệ gồm 3 véc-tơ trong không gian 3 chiều.", answer: true },
+              { label: "b)", text: "Định thức lập bởi 3 véc-tơ này khác 0.", answer: true },
+              { label: "c)", text: "Hệ $S$ lập thành một cơ sở của $\\mathbb{R}^3$.", answer: true },
+              { label: "d)", text: "Hệ $S$ phụ thuộc tuyến tính.", answer: false }
+            ],
+            explanation: "• a) Gồm 3 véc-tơ trong $\\mathbb{R}^3$ (Đ).<br>• b) $\\det = 2 \\neq 0$ (Đ).<br>• c) Độc lập tuyến tính nên là cơ sở (Đ).<br>• d) Hệ độc lập tuyến tính nên không phụ thuộc tuyến tính (S)."
+          },
+          {
+            id: 27, section: "PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI", type: "tf", points: 1.0,
+            question: "Cho ánh xạ tuyến tính $f: \\mathbb{R}^3 \\to \\mathbb{R}^3$ có ma trận $A = \\begin{pmatrix} 1 & 1 & 0 \\\\ 0 & 1 & 1 \\\\ 0 & 0 & 1 \\end{pmatrix}$. Xét tính đúng/sai:",
+            subQuestions: [
+              { label: "a)", text: "Ma trận $A$ khả nghịch vì có định thức bằng 1.", answer: true },
+              { label: "b)", text: "Hạng của ánh xạ $\\operatorname{rank}(f) = 3$.", answer: true },
+              { label: "c)", text: "Không gian nhân $\\ker(f)$ chỉ chứa véc-tơ không.", answer: true },
+              { label: "d)", text: "Ánh xạ $f$ không phải là một đẳng cấu.", answer: false }
+            ],
+            explanation: "• a) $\\det(A) = 1$ (Đ).<br>• b) $\\operatorname{rank} = 3$ (Đ).<br>• c) $\\ker(f) = \\{0\\}$ (Đ).<br>• d) Là song ánh nên nó là đẳng cấu (S)."
+          },
+          {
+            id: 28, section: "PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI", type: "tf", points: 1.0,
+            question: "Cho không gian Euclid $\\mathbb{R}^2$. Cho hai véc-tơ $x = (3, 4)$ và $y = (1, 2)$. Xét tính đúng/sai:",
+            subQuestions: [
+              { label: "a)", text: "Độ dài $\\|x\\| = 5$.", answer: true },
+              { label: "b)", text: "Tích vô hướng $\\langle x, y \\rangle = 11$.", answer: true },
+              { label: "c)", text: "Khoảng cách giữa hai véc-tơ $\\|x - y\\| = \\sqrt{8}$.", answer: true },
+              { label: "d)", text: "Góc giữa hai véc-tơ là góc tù.", answer: false }
+            ],
+            explanation: "• a) $\\|x\\| = 5$ (Đ).<br>• b) $\\langle x, y \\rangle = 3+8 = 11$ (Đ).<br>• c) $\\|x-y\\| = \\|(2, 2)\\| = \\sqrt{8}$ (Đ).<br>• d) $\\cos\\theta > 0$ nên góc nhọn (S)."
+          },
+          {
+            id: 29, section: "PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI", type: "tf", points: 1.0,
+            question: "Cho ma trận thực $A = \\begin{pmatrix} 2 & -1 \\\\ 1 & 4 \\end{pmatrix}$. Xét các tính chất cấu trúc:",
+            subQuestions: [
+              { label: "a)", text: "Vết của ma trận $\\operatorname{tr}(A) = 6$.", answer: true },
+              { label: "b)", text: "Định thức của ma trận $\\det(A) = 9$.", answer: true },
+              { label: "c)", text: "Phương trình đặc trưng của $A$ là $\\lambda^2 - 6\\lambda + 9 = 0$.", answer: true },
+              { label: "d)", text: "Ma trận $A$ chéo hóa được trên $\\mathbb{R}$.", answer: false }
+            ],
+            explanation: "• a) $\\operatorname{tr} = 2+4 = 6$ (Đ).<br>• b) $\\det = 8 - (-1) = 9$ (Đ).<br>• c) Phương trình đặc trưng $\\lambda^2 - 6\\lambda + 9 = 0$ (Đ).<br>• d) Nghiệm kép $\\lambda = 3$ nhưng số chiều không gian riêng bằng 1 nhỏ hơn bội đại số nên không chéo hóa được (S)."
+          },
+
+          // PHẦN III: TRẢ LỜI NGẮN (6 CÂU)
+          {
+            id: 30, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.16,
+            question: "Cho ánh xạ tuyến tính $f: \\mathbb{R}^4 \\to \\mathbb{R}^3$ có hạng $\\operatorname{rank}(f) = 2$. Tính số hụt $\\dim(\\ker(f))$.",
+            answer: "2",
+            explanation: "Theo định lý hạng - số hụt: $\\dim(\\ker(f)) = 4 - 2 = 2$."
+          },
+          {
+            id: 31, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.16,
+            question: "Cho không gian véc-tơ $V$ có cơ sở gồm $4$ véc-tơ. Hỏi không gian đối ngẫu $V^*$ có số chiều bằng bao nhiêu?",
+            answer: "4",
+            explanation: "Không gian đối ngẫu có số chiều bằng chính số chiều không gian ban đầu, bằng 4."
+          },
+          {
+            id: 32, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.16,
+            question: "Cho ma trận vuông $A$ cấp $3$ có $\\det(A) = 5$. Tính định thức của ma trận $3A$.",
+            answer: "135",
+            explanation: "$\\det(3A) = 3^3 \\cdot \\det(A) = 27 \\times 5 = 135$."
+          },
+          {
+            id: 33, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.16,
+            question: "Cho hai không gian con $W_1, W_2$ trong $\\mathbb{R}^5$ có $\\dim(W_1)=3, \\dim(W_2)=3$. Giá trị nhỏ nhất của $\\dim(W_1 \\cap W_2)$ là:",
+            answer: "1",
+            explanation: "$\\dim(W_1 \\cap W_2) \\ge \\dim(W_1) + \\dim(W_2) - \\dim(\\mathbb{R}^5) = 3 + 3 - 5 = 1$."
+          },
+          {
+            id: 34, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.16,
+            question: "Cho véc-tơ $u = (2, -1, 2)$ trong không gian Euclid $\\mathbb{R}^3$. Tính chuẩn $\\|u\\|$.",
+            answer: "3",
+            explanation: "$\\|u\\| = \\sqrt{2^2 + (-1)^2 + 2^2} = \\sqrt{9} = 3$."
+          },
+          {
+            id: 35, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.20,
+            question: "Cho ánh xạ $f: P_2[x] \\to P_2[x]$ xác định bởi $f(p(x)) = x p'(x)$. Tính tổng đường chéo chính của ma trận biểu diễn trong cơ sở $\{1, x, x^2\}$.",
+            answer: "3",
+            explanation: "$f(1)=0, f(x)=x, f(x^2)=2x^2 \\implies$ các phần tử đường chéo chính là $0, 1, 2$, tổng bằng 3."
+          }
+        ]
+      }
+    };
+
+    let currentExamKey = "de1";
+    let userAnswers = {};
+    let isSubmitted = false;
+    let secondsLeft = 60 * 60;
+    let timerInterval;
+
+    function initSelector() {
+      const select = document.getElementById("exam-select");
+      if(!select) return;
+      select.innerHTML = "";
+      for (let key in ALL_EXAMS) {
+        const opt = document.createElement("option");
+        opt.value = key;
+        opt.innerText = ALL_EXAMS[key].title;
+        select.appendChild(opt);
+      }
+      select.value = currentExamKey;
+    }
+
+    function changeExam(key) {
+      currentExamKey = key;
+      userAnswers = {};
+      isSubmitted = false;
+      document.getElementById("result-banner").classList.add("hidden");
+      document.getElementById("submit-bar").classList.remove("hidden");
+      
+      clearInterval(timerInterval);
+      secondsLeft = ALL_EXAMS[key].duration * 60;
+      startTimer();
+      renderQuiz();
+    }
+
+    function renderQuiz() {
+      const exam = ALL_EXAMS[currentExamKey];
+      document.getElementById("exam-title-header").innerText = exam.title;
+      const container = document.getElementById("quiz-container");
+      container.innerHTML = "";
+      let currentSection = "";
+
+      exam.questions.forEach((q, idx) => {
+        if (q.section !== currentSection) {
+          currentSection = q.section;
+          const secHeader = document.createElement("div");
+          secHeader.className = "bg-blue-700 text-white font-bold px-4 py-2 rounded-lg text-sm tracking-wide shadow-sm mt-6";
+          secHeader.innerText = currentSection;
+          container.appendChild(secHeader);
+        }
+
+        const card = document.createElement("div");
+        card.id = `q-card-${q.id}`;
+        card.className = "bg-white p-4 sm:p-5 rounded-xl shadow-sm border border-slate-200 transition";
+
+        let html = `<div class="font-semibold text-slate-900 mb-3 leading-relaxed"><span class="text-blue-600 font-bold">Câu ${idx + 1}.</span> ${q.question}</div>`;
+
+        if (q.type === "mcq") {
+          const letters = ["A", "B", "C", "D"];
+          html += `<div class="space-y-2.5">`;
+          q.options.forEach((opt, optIdx) => {
+            html += `
+              <label id="opt-${q.id}-${optIdx}" class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                <input type="radio" name="q_${q.id}" value="${optIdx}" onchange="saveMCQ(${q.id}, ${optIdx})" class="w-4 h-4 text-blue-600">
+                <span class="font-bold text-slate-700">${letters[optIdx]}.</span>
+                <span class="text-slate-800">${opt}</span>
+              </label>`;
+          });
+          html += `</div>`;
+        } else if (q.type === "tf") {
+          html += `<div class="divide-y divide-slate-100 border border-slate-200 rounded-lg overflow-hidden">`;
+          q.subQuestions.forEach((sub, sIdx) => {
+            html += `
+              <div id="tf-row-${q.id}-${sIdx}" class="p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-white">
+                <div class="text-sm text-slate-800"><span class="font-bold">${sub.label}</span> ${sub.text}</div>
+                <div class="flex gap-2 shrink-0">
+                  <button type="button" id="btn-tf-${q.id}-${sIdx}-true" onclick="saveTF(${q.id}, ${sIdx}, true)" class="px-3 py-1.5 text-xs font-bold rounded border border-slate-300 text-slate-600">ĐÚNG</button>
+                  <button type="button" id="btn-tf-${q.id}-${sIdx}-false" onclick="saveTF(${q.id}, ${sIdx}, false)" class="px-3 py-1.5 text-xs font-bold rounded border border-slate-300 text-slate-600">SAI</button>
+                </div>
+              </div>`;
+          });
+          html += `</div>`;
+        } else if (q.type === "short") {
+          html += `
+            <div class="mt-2">
+              <input type="text" id="short-input-${q.id}" oninput="saveShort(${q.id}, this.value)" placeholder="Nhập đáp số..." class="w-full sm:w-64 px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-blue-500 font-semibold">
+            </div>`;
+        }
+
+        html += `
+          <div id="exp-${q.id}" class="hidden mt-4 p-3.5 rounded-lg bg-amber-50 border border-amber-200 text-sm text-slate-700">
+            <div class="font-bold text-amber-800 mb-1">💡 Lời giải & Phân tích:</div>
+            <div>${q.explanation}</div>
+          </div>`;
+
+        card.innerHTML = html;
+        container.appendChild(card);
+      });
+
+      renderMathInElement(document.body, {
+        delimiters: [
+          { left: "$$", right: "$$", display: true },
+          { left: "$", right: "$", display: false }
+        ]
+      });
+    }
+
+    function saveMCQ(qId, optIdx) { if (!isSubmitted) userAnswers[qId] = optIdx; }
+    function saveTF(qId, sIdx, val) {
+      if (isSubmitted) return;
+      if (!userAnswers[qId]) userAnswers[qId] = {};
+      userAnswers[qId][sIdx] = val;
+      const bT = document.getElementById(`btn-tf-${qId}-${sIdx}-true`);
+      const bF = document.getElementById(`btn-tf-${qId}-${sIdx}-false`);
+      bT.className = val === true ? "px-3 py-1.5 text-xs font-bold rounded bg-blue-600 text-white" : "px-3 py-1.5 text-xs font-bold rounded border border-slate-300 text-slate-600";
+      bF.className = val === false ? "px-3 py-1.5 text-xs font-bold rounded bg-blue-600 text-white" : "px-3 py-1.5 text-xs font-bold rounded border border-slate-300 text-slate-600";
+    }
+    function saveShort(qId, val) { if (!isSubmitted) userAnswers[qId] = val.trim().replace(",", "."); }
+
+    function startTimer() {
+      timerInterval = setInterval(() => {
+        secondsLeft--;
+        const m = String(Math.floor(secondsLeft / 60)).padStart(2, "0");
+        const s = String(secondsLeft % 60).padStart(2, "0");
+        const tBox = document.getElementById("timer-box");
+        if(tBox) tBox.innerText = `${m}:${s}`;
+        if (secondsLeft <= 0) { clearInterval(timerInterval); submitQuiz(true); }
+      }, 1000);
+    }
+
+    function submitQuiz(auto = false) {
+      if (isSubmitted) return;
+      if (!auto && !confirm("Bạn chắc chắn muốn nộp bài chứ?")) return;
+
+      isSubmitted = true;
+      clearInterval(timerInterval);
+      let totalScore = 0, maxScore = 0;
+      const exam = ALL_EXAMS[currentExamKey];
+
+      exam.questions.forEach(q => {
+        maxScore += q.points;
+        document.getElementById(`exp-${q.id}`).classList.remove("hidden");
+
+        if (q.type === "mcq") {
+          const chosen = userAnswers[q.id];
+          document.getElementById(`opt-${q.id}-${q.answer}`).classList.add("bg-green-50", "border-green-500", "ring-1", "ring-green-500");
+          if (chosen === q.answer) totalScore += q.points;
+          else if (chosen !== undefined) document.getElementById(`opt-${q.id}-${chosen}`).classList.add("bg-red-50", "border-red-500");
+        } else if (q.type === "tf") {
+          let correct = 0;
+          const uObj = userAnswers[q.id] || {};
+          q.subQuestions.forEach((sub, sIdx) => {
+            const row = document.getElementById(`tf-row-${q.id}-${sIdx}`);
+            if (uObj[sIdx] === sub.answer) { correct++; row.classList.add("bg-green-50"); }
+            else { row.classList.add("bg-red-50"); row.insertAdjacentHTML("beforeend", `<span class="text-xs font-bold text-red-600 ml-2">(Đúng: ${sub.answer ? "ĐÚNG" : "SAI"})</span>`); }
+          });
+          const ratios = [0, 0.1, 0.25, 0.5, 1.0];
+          totalScore += q.points * ratios[correct];
+        } else if (q.type === "short") {
+          const input = document.getElementById(`short-input-${q.id}`);
+          input.disabled = true;
+          const uVal = (userAnswers[q.id] || "").toLowerCase();
+          if (uVal === q.answer.toLowerCase()) {
+            totalScore += q.points;
+            input.classList.add("bg-green-50", "border-green-500", "text-green-800");
+          } else {
+            input.classList.add("bg-red-50", "border-red-500", "text-red-800");
+            input.insertAdjacentHTML("afterend", `<span class="ml-3 text-sm font-bold text-green-700">Đáp số: ${q.answer}</span>`);
+          }
+        }
+      });
+
+      document.getElementById("submit-bar").classList.add("hidden");
+      const banner = document.getElementById("result-banner");
+      banner.classList.remove("hidden");
+      document.getElementById("score-text").innerText = `${totalScore.toFixed(2)} / ${maxScore.toFixed(2)} điểm`;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      initSelector();
+      startTimer();
+      renderQuiz();
+    });
+  </script>
+</body>
+</html>
