@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   <style>
     .katex-display { overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
   </style>
@@ -1635,6 +1636,44 @@
       }, 1000);
     }
 
+    // Hàm phân loại chuyên đề dựa trên nội dung câu hỏi
+    function detectTopic(questionText) {
+      const text = questionText.toLowerCase();
+      if (text.includes("chéo hóa") || text.includes("trị riêng") || text.includes("giá trị riêng") || text.includes("véc-tơ riêng") || text.includes("đặc trưng") || text.includes("^202") || text.includes("^n")) {
+        return "Chéo hóa ma trận, Trị riêng & Lũy thừa ma trận";
+      }
+      if (text.includes("ánh xạ tuyến tính") || text.includes("toán tử") || text.includes("\\ker") || text.includes("\\operatorname{im}") || text.includes("chuyển cơ sở")) {
+        return "Ánh xạ tuyến tính (Nhân, Ảnh & Ma trận biểu diễn)";
+      }
+      if (text.includes("không gian") || text.includes("cơ sở") || text.includes("độc lập tuyến tính") || text.includes("phụ thuộc tuyến tính") || text.includes("tọa độ") || text.includes("số chiều") || text.includes("\\dim")) {
+        return "Không gian véc-tơ, Cơ sở & Số chiều";
+      }
+      if (text.includes("hệ phương trình") || text.includes("cramer") || text.includes("kronecker") || text.includes("thuần nhất") || text.includes("nghiệm cơ bản")) {
+        return "Hệ phương trình tuyến tính & Không gian nghiệm";
+      }
+      if (text.includes("số phức") || text.includes("mô-đun") || text.includes("phép thế") || text.includes("chu trình")) {
+        return "Số phức & Nhóm phép thế";
+      }
+      return "Ma trận, Định thức & Hạng của ma trận";
+    }
+
+    // Hàm bắn pháo hoa ăn mừng
+    function fireCelebration(level) {
+      if (typeof confetti !== "function") return;
+      if (level === "legend") {
+        // Bắn pháo hoa liên hoàn 3 giây cho mốc >= 9.0
+        const end = Date.now() + 3000;
+        (function frame() {
+          confetti({ particleCount: 6, angle: 60, spread: 55, origin: { x: 0 } });
+          confetti({ particleCount: 6, angle: 120, spread: 55, origin: { x: 1 } });
+          if (Date.now() < end) requestAnimationFrame(frame);
+        })();
+      } else {
+        // Bắn pháo hoa bung giữa màn hình cho mốc >= 8.0
+        confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+      }
+    }
+
     function submitQuiz(auto = false) {
       if (isSubmitted) return;
       if (!auto && !confirm("Bạn chắc chắn muốn nộp bài chứ?")) return;
@@ -1643,37 +1682,56 @@
       clearInterval(timerInterval);
       let totalScore = 0, maxScore = 0;
       const exam = ALL_EXAMS[currentExamKey];
+      const weakTopics = {}; // Lưu thống kê các chuyên đề bị sai
 
       exam.questions.forEach(q => {
         maxScore += q.points;
         document.getElementById(`exp-${q.id}`).classList.remove("hidden");
+        let isQuestionPerfect = true;
 
         if (q.type === "mcq") {
           const chosen = userAnswers[q.id];
           document.getElementById(`opt-${q.id}-${q.answer}`).classList.add("bg-green-50", "border-green-500", "ring-1", "ring-green-500");
-          if (chosen === q.answer) totalScore += q.points;
-          else if (chosen !== undefined) document.getElementById(`opt-${q.id}-${chosen}`).classList.add("bg-red-50", "border-red-500");
+          if (chosen === q.answer) {
+            totalScore += q.points;
+          } else {
+            isQuestionPerfect = false;
+            if (chosen !== undefined) document.getElementById(`opt-${q.id}-${chosen}`).classList.add("bg-red-50", "border-red-500");
+          }
         } else if (q.type === "tf") {
           let correct = 0;
           const uObj = userAnswers[q.id] || {};
           q.subQuestions.forEach((sub, sIdx) => {
             const row = document.getElementById(`tf-row-${q.id}-${sIdx}`);
-            if (uObj[sIdx] === sub.answer) { correct++; row.classList.add("bg-green-50"); }
-            else { row.classList.add("bg-red-50"); row.insertAdjacentHTML("beforeend", `<span class="text-xs font-bold text-red-600 ml-2">(Đúng: ${sub.answer ? "ĐÚNG" : "SAI"})</span>`); }
+            if (uObj[sIdx] === sub.answer) {
+              correct++;
+              row.classList.add("bg-green-50");
+            } else {
+              row.classList.add("bg-red-50");
+              row.insertAdjacentHTML("beforeend", `<span class="text-xs font-bold text-red-600 ml-2">(Đúng: ${sub.answer ? "ĐÚNG" : "SAI"})</span>`);
+            }
           });
+          if (correct < 4) isQuestionPerfect = false;
           const ratios = [0, 0.1, 0.25, 0.5, 1.0];
           totalScore += q.points * ratios[correct];
         } else if (q.type === "short") {
           const input = document.getElementById(`short-input-${q.id}`);
           input.disabled = true;
-          const uVal = (userAnswers[q.id] || "").toLowerCase();
+          const uVal = (userAnswers[q.id] || "").trim().toLowerCase();
           if (uVal === q.answer.toLowerCase()) {
             totalScore += q.points;
             input.classList.add("bg-green-50", "border-green-500", "text-green-800");
           } else {
+            isQuestionPerfect = false;
             input.classList.add("bg-red-50", "border-red-500", "text-red-800");
             input.insertAdjacentHTML("afterend", `<span class="ml-3 text-sm font-bold text-green-700">Đáp số: ${q.answer}</span>`);
           }
+        }
+
+        // Ghi nhận chuyên đề nếu câu này làm sai hoặc chưa trọn vẹn điểm
+        if (!isQuestionPerfect) {
+          const topic = detectTopic(q.question);
+          weakTopics[topic] = (weakTopics[topic] || 0) + 1;
         }
       });
 
@@ -1681,6 +1739,93 @@
       const banner = document.getElementById("result-banner");
       banner.classList.remove("hidden");
       document.getElementById("score-text").innerText = `${totalScore.toFixed(2)} / ${maxScore.toFixed(2)} điểm`;
+
+      // Quy đổi điểm sang thang 10 để xét mốc quà tặng / cảnh báo
+      const score10 = maxScore > 0 ? (totalScore / maxScore) * 10 : 0;
+
+      // Xóa box đánh giá cũ nếu có (tránh trùng lặp)
+      const oldFeedback = document.getElementById("feedback-reward-box");
+      if (oldFeedback) oldFeedback.remove();
+
+      let feedbackHTML = "";
+
+      if (score10 >= 9.0) {
+        fireCelebration("legend");
+        const isGodTier = score10 >= 9.5;
+        feedbackHTML = `
+          <div id="feedback-reward-box" class="mt-4 p-5 rounded-xl bg-gradient-to-r from-amber-50 via-yellow-50 to-orange-50 border-2 border-amber-400 shadow-md text-left">
+            <div class="flex items-center gap-3">
+              <span class="text-4xl">${isGodTier ? "👑" : "🏆"}</span>
+              <div>
+                <h3 class="text-lg font-extrabold text-amber-800 uppercase tracking-wide">
+                  ${isGodTier ? "HUYỀN THOẠI ĐẠI SỐ TUYẾN TÍNH (TRÊN 9.5 ĐIỂM)" : "XUẤT SẮC VƯỢT TRỘI (TRÊN 9.0 ĐIỂM)"}
+                </h3>
+                <p class="text-sm text-amber-900 mt-1">
+                  ${isGodTier
+                    ? "🎁 <b>Phần thưởng đặc biệt:</b> Mở khóa danh hiệu <i>\"Bậc Thầy Ma Trận & Chéo Hóa\"</i>! Tư duy nhẩm không cần máy tính của bạn đã đạt mức thượng thừa."
+                    : "🎁 <b>Quà tặng vinh danh:</b> Huy hiệu Vàng <i>\"Chiến Thần Điểm A+\"</i>! Bạn đã nắm cực chắc toàn bộ lý thuyết lẫn kỹ năng biến đổi nhanh."}
+                </p>
+              </div>
+            </div>
+          </div>`;
+      } else if (score10 >= 8.5) {
+        fireCelebration("high");
+        feedbackHTML = `
+          <div id="feedback-reward-box" class="mt-4 p-5 rounded-xl bg-gradient-to-r from-emerald-50 to-teal-50 border-2 border-emerald-400 shadow-sm text-left">
+            <div class="flex items-center gap-3">
+              <span class="text-4xl">🎖️</span>
+              <div>
+                <h3 class="text-lg font-extrabold text-emerald-800 uppercase">THÀNH TÍCH ẤN TƯỢNG (TRÊN 8.5 ĐIỂM)</h3>
+                <p class="text-sm text-emerald-900 mt-1">
+                  🎁 <b>Quà tặng tinh thần:</b> Huy hiệu Bạc <i>\"Chuyên Gia Tuyến Tính\"</i>! Chỉ còn một chút xíu nữa là chạm mốc 9+, xem lại nhanh các câu sai bên dưới để bứt phá nhé!
+                </p>
+              </div>
+            </div>
+          </div>`;
+      } else if (score10 >= 8.0) {
+        fireCelebration("good");
+        feedbackHTML = `
+          <div id="feedback-reward-box" class="mt-4 p-5 rounded-xl bg-gradient-to-r from-sky-50 to-blue-50 border-2 border-sky-400 shadow-sm text-left">
+            <div class="flex items-center gap-3">
+              <span class="text-4xl">🎉</span>
+              <div>
+                <h3 class="text-lg font-extrabold text-sky-800 uppercase">CHÚC MỪNG VƯỢT MỐC AN TOÀN (TRÊN 8.0 ĐIỂM)</h3>
+                <p class="text-sm text-sky-900 mt-1">
+                  🎁 <b>Quà tặng khích lệ:</b> Huy hiệu Đồng <i>\"Tư Duy Vững Vàng\"</i> + 1 ly trà sữa tự thưởng! Nền tảng của bạn đã rất ổn định rồi.
+                </p>
+              </div>
+            </div>
+          </div>`;
+      } else {
+        // Dưới 8.0 điểm: Cảnh báo & liệt kê các chuyên đề bị hổng theo thứ tự sai nhiều nhất
+        const sortedTopics = Object.entries(weakTopics).sort((a, b) => b[1] - a[1]);
+        const topicListHTML = sortedTopics.map(([topic, count]) =>
+          `<li class="flex items-center justify-between py-1.5 px-3 bg-white/80 rounded-lg border border-red-200">
+            <span class="font-semibold text-red-900">📌 ${topic}</span>
+            <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-red-100 text-red-700">Chưa đạt ${count} câu</span>
+          </li>`
+        ).join("");
+
+        feedbackHTML = `
+          <div id="feedback-reward-box" class="mt-4 p-5 rounded-xl bg-red-50 border-2 border-red-400 shadow-sm text-left">
+            <div class="flex items-start gap-3">
+              <span class="text-3xl">⚠️</span>
+              <div class="w-full">
+                <h3 class="text-base font-extrabold text-red-800 uppercase">
+                  CẢNH BÁO ÔN TẬP (DƯỚI 8.0 ĐIỂM) — CẦN CỦNG CỐ LẠI KIẾN THỨC!
+                </h3>
+                <p class="text-sm text-red-700 mt-1 mb-3">
+                  Hệ thống phát hiện bạn đang bị hổng hoặc nhầm lẫn ở các chuyên đề sau (ưu tiên ôn từ trên xuống dưới):
+                </p>
+                <ul class="space-y-2 text-sm">
+                  ${topicListHTML}
+                </ul>
+              </div>
+            </div>
+          </div>`;
+      }
+
+      banner.insertAdjacentHTML("beforeend", feedbackHTML);
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
