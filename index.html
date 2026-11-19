@@ -782,6 +782,729 @@
             explanation: "$f(1)=0, f(x)=x, f(x^2)=2x^2 \\implies$ các phần tử đường chéo chính là $0, 1, 2$, tổng bằng 3."
           }
         ]
+      },
+      de4: {
+        title: "Đề Thi Đại Số Tuyến Tính - Đề Số 4 (Chuyên Sâu Chéo Hóa & Lũy Thừa Ma Trận)",
+        duration: 60,
+        questions: [
+          // PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN (25 CÂU)
+          {
+            id: 1, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận $A = \\begin{pmatrix} 2 & 0 \\\\ 0 & -3 \\end{pmatrix}$. Ma trận $A^{2026}$ bằng:",
+            options: ["$\\begin{pmatrix} 2^{2026} & 0 \\\\ 0 & 3^{2026} \\end{pmatrix}$", "$\\begin{pmatrix} 2^{2026} & 0 \\\\ 0 & -3^{2026} \\end{pmatrix}$", "$\\begin{pmatrix} -2^{2026} & 0 \\\\ 0 & 3^{2026} \\end{pmatrix}$", "$\\begin{pmatrix} 4052 & 0 \\\\ 0 & -6078 \\end{pmatrix}$"], answer: 0,
+            explanation: "Với ma trận đường chéo, nâng lên lũy thừa $n$ chỉ cần nâng từng phần tử đường chéo lên lũy thừa $n$. Vì $2026$ chẵn nên $(-3)^{2026} = 3^{2026}$."
+          },
+          {
+            id: 2, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Giả sử $A = P D P^{-1}$ với $D = \\operatorname{diag}(1, -2, 3)$. Giá trị của $\\det(A^4)$ bằng:",
+            options: ["$36$", "$-36$", "$1296$", "$6$"], answer: 2,
+            explanation: "$\\det(A) = \\det(P D P^{-1}) = \\det(D) = 1 \\cdot (-2) \\cdot 3 = -6$. Suy ra $\\det(A^4) = (\\det A)^4 = (-6)^4 = 1296$."
+          },
+          {
+            id: 3, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận vuông $A$ cấp $n$ chéo hóa được: $A = P D P^{-1}$. Biểu thức của $A^k$ ($k \\in \\mathbb{N}^*$) theo $P$ và $D$ là:",
+            options: ["$P^k D^k (P^{-1})^k$", "$P D^k P^{-1}$", "$P^{-1} D^k P$", "$k P D P^{-1}$"], answer: 1,
+            explanation: "$A^k = (P D P^{-1})(P D P^{-1})\\cdots(P D P^{-1}) = P D^k P^{-1}$ do các cặp $P^{-1}P = I$ triệt tiêu nhau ở giữa."
+          },
+          {
+            id: 4, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho $A = \\begin{pmatrix} 1 & 1 \\\\ 0 & 1 \\end{pmatrix}$. Công thức tổng quát của $A^n$ ($n \\ge 1$) là:",
+            options: ["$\\begin{pmatrix} 1 & n \\\\ 0 & 1 \\end{pmatrix}$", "$\\begin{pmatrix} 1 & 1 \\\\ 0 & n \\end{pmatrix}$", "$\\begin{pmatrix} n & n \\\\ 0 & n \\end{pmatrix}$", "$\\begin{pmatrix} 1 & n(n+1)/2 \\\\ 0 & 1 \\end{pmatrix}$"], answer: 0,
+            explanation: "Kiểm tra quy nạp: $A^2 = \\begin{pmatrix} 1 & 2 \\\\ 0 & 1 \\end{pmatrix}$, $A^3 = \\begin{pmatrix} 1 & 3 \\\\ 0 & 1 \\end{pmatrix} \\implies A^n = \\begin{pmatrix} 1 & n \\\\ 0 & 1 \\end{pmatrix}$."
+          },
+          {
+            id: 5, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận $A$ cấp $3$ có các giá trị riêng là $\\lambda_1 = 2, \\lambda_2 = -1, \\lambda_3 = 4$. Giá trị của $\\operatorname{tr}(A^3)$ bằng:",
+            options: ["$5$", "$61$", "$71$", "$-8$"], answer: 2,
+            explanation: "Các giá trị riêng của $A^3$ là $\\lambda_i^3$, nên $\\operatorname{tr}(A^3) = 2^3 + (-1)^3 + 4^3 = 8 - 1 + 64 = 71$."
+          },
+          {
+            id: 6, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Điều kiện cần và đủ để ma trận vuông $A$ cấp $n$ chéo hóa được trên trường $\\mathbb{K}$ là:",
+            options: ["$\\det(A) \\neq 0$", "$A$ có $n$ giá trị riêng phân biệt trong $\\mathbb{K}$", "Với mọi trị riêng $\\lambda$ trong $\\mathbb{K}$, bội hình học bằng bội đại số", "$A$ là ma trận tam giác"], answer: 2,
+            explanation: "Định lý chéo hóa: $A$ chéo hóa được khi và chỉ khi đa thức đặc trưng tách hết thành nhân tử bậc nhất trên $\\mathbb{K}$ và với mỗi trị riêng, $\\dim(E_\\lambda)$ bằng bội đại số của $\\lambda$."
+          },
+          {
+            id: 7, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận $A = \\begin{pmatrix} 4 & 1 \\\\ 2 & 3 \\end{pmatrix}$. Một giá trị riêng của $A$ là $\\lambda_1 = 5$. Giá trị riêng còn lại $\\lambda_2$ bằng:",
+            options: ["$2$", "$3$", "$-2$", "$1$"], answer: 0,
+            explanation: "Tổng hai trị riêng bằng vết của $A$: $\\lambda_1 + \\lambda_2 = 4 + 3 = 7 \\implies \\lambda_2 = 7 - 5 = 2$."
+          },
+          {
+            id: 8, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Với ma trận $A = \\begin{pmatrix} 4 & 1 \\\\ 2 & 3 \\end{pmatrix}$ ở câu trên, một véc-tơ riêng ứng với $\\lambda_1 = 5$ là:",
+            options: ["$(1, 1)^T$", "$(1, -2)^T$", "$(2, 1)^T$", "$(1, 2)^T$"], answer: 0,
+            explanation: "Giải $(A - 5I)X = 0 \\iff \\begin{pmatrix} -1 & 1 \\\\ 2 & -2 \\end{pmatrix}\\begin{pmatrix} x \\\\ y \\end{pmatrix} = \\begin{pmatrix} 0 \\\\ 0 \\end{pmatrix} \\iff x = y$, chọn $(1, 1)^T$."
+          },
+          {
+            id: 9, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận $A = \\begin{pmatrix} 4 & 1 \\\\ 2 & 3 \\end{pmatrix}$ có trị riêng $\\lambda_1 = 5$ (véc-tơ riêng $(1,1)^T$) và $\\lambda_2 = 2$ (véc-tơ riêng $(1,-2)^T$). Ma trận $P$ sao cho $P^{-1}AP = \\operatorname{diag}(5, 2)$ là:",
+            options: ["$\\begin{pmatrix} 1 & 1 \\\\ 1 & -2 \\end{pmatrix}$", "$\\begin{pmatrix} 1 & 1 \\\\ -2 & 1 \\end{pmatrix}$", "$\\begin{pmatrix} 5 & 2 \\\\ 1 & -2 \\end{pmatrix}$", "$\\begin{pmatrix} 1 & -2 \\\\ 1 & 1 \\end{pmatrix}$"], answer: 0,
+            explanation: "Các cột của $P$ là các véc-tơ riêng xếp đúng theo thứ tự các giá trị riêng trên đường chéo của $D$: cột 1 ứng với $5$ là $(1,1)^T$, cột 2 ứng với $2$ là $(1,-2)^T$."
+          },
+          {
+            id: 10, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận $A = \\begin{pmatrix} 1 & 0 & 0 \\\\ 0 & 2 & 1 \\\\ 0 & 0 & 2 \\end{pmatrix}$. Bội đại số của giá trị riêng $\\lambda = 2$ là:",
+            options: ["$1$", "$2$", "$3$", "$0$"], answer: 1,
+            explanation: "Đa thức đặc trưng $P(\\lambda) = (1-\\lambda)(2-\\lambda)^2$, nên $\\lambda = 2$ có bội đại số là $2$."
+          },
+          {
+            id: 11, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Với ma trận $A = \\begin{pmatrix} 1 & 0 & 0 \\\\ 0 & 2 & 1 \\\\ 0 & 0 & 2 \\end{pmatrix}$, số chiều không gian riêng ứng với $\\lambda = 2$ là:",
+            options: ["$2$", "$1$", "$0$", "$3$"], answer: 1,
+            explanation: "$A - 2I = \\begin{pmatrix} -1 & 0 & 0 \\\\ 0 & 0 & 1 \\\\ 0 & 0 & 0 \\end{pmatrix}$ có hạng bằng $2 \\implies \\dim(E_2) = 3 - 2 = 1$."
+          },
+          {
+            id: 12, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Từ hai câu trên, kết luận nào đúng về ma trận $A = \\begin{pmatrix} 1 & 0 & 0 \\\\ 0 & 2 & 1 \\\\ 0 & 0 & 2 \\end{pmatrix}$?",
+            options: ["Chéo hóa được trên $\\mathbb{R}$", "Không chéo hóa được vì bội hình học của $\\lambda=2$ nhỏ hơn bội đại số", "Không chéo hóa được vì $\\det(A) = 0$", "Chéo hóa được nhờ có 3 giá trị riêng"], answer: 1,
+            explanation: "Với $\\lambda = 2$, bội hình học là $1 < 2$ (bội đại số), nên $A$ không chéo hóa được trên $\\mathbb{R}$."
+          },
+          {
+            id: 13, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho $A = \\begin{pmatrix} 0 & 2 \\\\ 0 & 0 \\end{pmatrix}$. Tính $A^2$ và $A^{100}$:",
+            options: ["$A^2 = 0, A^{100} = 0$", "$A^2 = 2I, A^{100} = 2^{50}I$", "$A^2 = A, A^{100} = A$", "$A^2 = 4I, A^{100} = 4^{50}I$"], answer: 0,
+            explanation: "$A^2 = \\begin{pmatrix} 0 & 2 \\\\ 0 & 0 \\end{pmatrix}\\begin{pmatrix} 0 & 2 \\\\ 0 & 0 \\end{pmatrix} = \\begin{pmatrix} 0 & 0 \\\\ 0 & 0 \\end{pmatrix}$. Mọi lũy thừa bậc $\\ge 2$ đều bằng ma trận không."
+          },
+          {
+            id: 14, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Nếu $X$ là véc-tơ riêng của $A$ ứng với trị riêng $\\lambda = 3$, thì $A^5 X$ bằng:",
+            options: ["$15 X$", "$243 X$", "$125 X$", "$3 X$"], answer: 1,
+            explanation: "$A^5 X = \\lambda^5 X = 3^5 X = 243 X$."
+          },
+          {
+            id: 15, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận $A = \\begin{pmatrix} 3 & 0 \\\\ 0 & 3 \\end{pmatrix}$. Giá trị của $A^{10}$ bằng:",
+            options: ["$3^{10} I$", "$30 I$", "$10^3 I$", "$9^{10} I$"], answer: 0,
+            explanation: "$A = 3I \\implies A^{10} = (3I)^{10} = 3^{10} I^{10} = 3^{10} I$."
+          },
+          {
+            id: 16, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận $A$ cấp $2$ có hai giá trị riêng là $\\lambda_1 = 1$ và $\\lambda_2 = -2$. Định thức $\\det(A)$ bằng:",
+            options: ["$-1$", "$2$", "$-2$", "$1$"], answer: 2,
+            explanation: "Định thức của ma trận bằng tích các giá trị riêng (tính theo bội): $\\det(A) = 1 \\cdot (-2) = -2$."
+          },
+          {
+            id: 17, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Giả sử $A$ chéo hóa được với $P^{-1} A P = D$. Ma trận $B = A^2 - 3A + 2I$ sẽ đồng dạng với ma trận đường chéo nào?",
+            options: ["$D^2 - 3D + 2I$", "$D^2 + 3D + 2I$", "$3D - 2I$", "$D - 3I$"], answer: 0,
+            explanation: "Do $A = P D P^{-1}$ nên $P^{-1}(A^2 - 3A + 2I)P = P^{-1}A^2P - 3P^{-1}AP + 2P^{-1}IP = D^2 - 3D + 2I$."
+          },
+          {
+            id: 18, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận vuông $A$ cấp $3$ có đa thức đặc trưng $P(\\lambda) = (1 - \\lambda)(2 - \\lambda)(5 - \\lambda)$. Ma trận $A$ có chéo hóa được trên $\\mathbb{R}$ không?",
+            options: ["Có, vì có 3 giá trị riêng thực phân biệt", "Không, vì đa thức đặc trưng có 3 nghiệm", "Chưa đủ dữ kiện để kết luận", "Chỉ chéo hóa được khi $\\det(A) = 0$"], answer: 0,
+            explanation: "Ma trận cấp $3$ có $3$ giá trị riêng phân biệt $\\lambda = 1, 2, 5$ thì luôn chéo hóa được trên $\\mathbb{R}$."
+          },
+          {
+            id: 19, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho $A = \\begin{pmatrix} 0 & 1 \\\\ 1 & 0 \\end{pmatrix}$. Tính $A^2$:",
+            options: ["$I$", "$-I$", "$A$", "$0$"], answer: 0,
+            explanation: "$\\begin{pmatrix} 0 & 1 \\\\ 1 & 0 \\end{pmatrix}\\begin{pmatrix} 0 & 1 \\\\ 1 & 0 \\end{pmatrix} = \\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix} = I$."
+          },
+          {
+            id: 20, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Từ kết quả $A^2 = I$ của ma trận $A = \\begin{pmatrix} 0 & 1 \\\\ 1 & 0 \\end{pmatrix}$, giá trị của $A^{2025}$ là:",
+            options: ["$I$", "$A$", "$-A$", "$0$"], answer: 1,
+            explanation: "Vì $A^2 = I$ nên $A^{2025} = (A^2)^{1012} \cdot A = I^{1012} \cdot A = A$."
+          },
+          {
+            id: 21, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận $A$ cấp $4$ có $\\det(A) = 2$. Giá trị của $\\det(A^3)$ là:",
+            options: ["$6$", "$8$", "$12$", "$24$"], answer: 1,
+            explanation: "$\\det(A^3) = (\\det A)^3 = 2^3 = 8$."
+          },
+          {
+            id: 22, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho hai ma trận đồng dạng $A$ và $B$ ($B = P^{-1}AP$). Phát biểu nào sau đây là <b>sai</b>?",
+            options: ["$A^k$ và $B^k$ cũng đồng dạng với nhau", "$\\operatorname{rank}(A) = \\operatorname{rank}(B)$", "$A$ và $B$ có cùng tập véc-tơ riêng", "$A$ và $B$ có cùng đa thức đặc trưng"], answer: 2,
+            explanation: "Hai ma trận đồng dạng có cùng trị riêng, cùng hạng, cùng đa thức đặc trưng, nhưng không gian riêng/véc-tơ riêng liên hệ qua phép biến đổi $P$ (không nhất thiết trùng nhau)."
+          },
+          {
+            id: 23, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận $A = \\begin{pmatrix} -1 & 0 \\\\ 0 & 2 \\end{pmatrix}$. Phần tử ở hàng 1, cột 1 của $A^5$ là:",
+            options: ["$1$", "$-1$", "$-5$", "$32$"], answer: 1,
+            explanation: "$A^5 = \\begin{pmatrix} (-1)^5 & 0 \\\\ 0 & 2^5 \\end{pmatrix} = \\begin{pmatrix} -1 & 0 \\\\ 0 & 32 \\end{pmatrix}$, phần tử $(1,1)$ là $-1$."
+          },
+          {
+            id: 24, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Nếu ma trận vuông $A$ chéo hóa được trên $\\mathbb{R}$, số lượng véc-tơ riêng độc lập tuyến tính tối đa có thể tìm được của $A$ là:",
+            options: ["$n - 1$", "$n$", "$n + 1$", "$2n$"], answer: 1,
+            explanation: "Ma trận cấp $n$ chéo hóa được khi và chỉ khi tồn tại một cơ sở gồm đúng $n$ véc-tơ riêng độc lập tuyến tính của $A$."
+          },
+          {
+            id: 25, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận $D = \\operatorname{diag}(2, 3)$. Phần tử ở hàng 2, cột 2 của $D^4$ là:",
+            options: ["$12$", "$81$", "$16$", "$24$"], answer: 1,
+            explanation: "$D^4 = \\operatorname{diag}(2^4, 3^4) = \\operatorname{diag}(16, 81)$, phần tử $(2,2)$ là $3^4 = 81$."
+          },
+
+          // PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI (4 CÂU)
+          {
+            id: 26, section: "PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI", type: "tf", points: 1.0,
+            question: "Cho ma trận tam giác trên $A = \\begin{pmatrix} 2 & 1 & 0 \\\\ 0 & -1 & 3 \\\\ 0 & 0 & 2 \\end{pmatrix}$. Xét tính đúng/sai:",
+            subQuestions: [
+              { label: "a)", text: "Các giá trị riêng của $A$ là $2$ và $-1$.", answer: true },
+              { label: "b)", text: "Bội đại số của giá trị riêng $\\lambda = 2$ bằng $2$.", answer: true },
+              { label: "c)", text: "Định thức của ma trận $A$ bằng $-4$.", answer: true },
+              { label: "d)", text: "Vết của ma trận $A$ bằng $5$.", answer: false }
+            ],
+            explanation: "• a) Đường chéo chính có $2, -1, 2$ nên trị riêng là $2$ và $-1$ (Đ).<br>• b) Giá trị $2$ xuất hiện $2$ lần trên đường chéo chính (Đ).<br>• c) $\\det(A) = 2 \\cdot (-1) \\cdot 2 = -4$ (Đ).<br>• d) $\\operatorname{tr}(A) = 2 + (-1) + 2 = 3 \\neq 5$ (S)."
+          },
+          {
+            id: 27, section: "PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI", type: "tf", points: 1.0,
+            question: "Cho ma trận $A = \\begin{pmatrix} 1 & 2 \\\\ 0 & 3 \\end{pmatrix}$. Xét bài toán chéo hóa và tính lũy thừa:",
+            subQuestions: [
+              { label: "a)", text: "Ma trận $A$ có hai giá trị riêng phân biệt là $\\lambda_1 = 1$ và $\\lambda_2 = 3$.", answer: true },
+              { label: "b)", text: "Ma trận $A$ chéo hóa được trên $\\mathbb{R}$.", answer: true },
+              { label: "c)", text: "Định thức của $A^3$ bằng $27$.", answer: true },
+              { label: "d)", text: "Giá trị riêng của $A^4$ ứng với $\\lambda_2 = 3$ bằng $12$.", answer: false }
+            ],
+            explanation: "• a) Ma trận tam giác trên có trị riêng là $1$ và $3$ (Đ).<br>• b) Có $2$ trị riêng phân biệt nên chéo hóa được (Đ).<br>• c) $\\det(A) = 3 \\implies \\det(A^3) = 3^3 = 27$ (Đ).<br>• d) Trị riêng tương ứng của $A^4$ là $3^4 = 81 \\neq 12$ (S)."
+          },
+          {
+            id: 28, section: "PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI", type: "tf", points: 1.0,
+            question: "Giả sử ma trận $A$ cấp $2$ phân tích được thành $A = P D P^{-1}$ với $D = \\begin{pmatrix} 2 & 0 \\\\ 0 & 1 \\end{pmatrix}$. Xét tính đúng/sai:",
+            subQuestions: [
+              { label: "a)", text: "$A^n = P \\begin{pmatrix} 2^n & 0 \\\\ 0 & 1 \\end{pmatrix} P^{-1}$ với mọi $n \\ge 1$.", answer: true },
+              { label: "b)", text: "$\\operatorname{tr}(A^3) = 9$.", answer: true },
+              { label: "c)", text: "$\\det(A^2) = 4$.", answer: true },
+              { label: "d)", text: "Ma trận $A$ không khả nghịch.", answer: false }
+            ],
+            explanation: "• a) $A^n = P D^n P^{-1}$ và $1^n = 1$ (Đ).<br>• b) $\\operatorname{tr}(A^3) = \\operatorname{tr}(D^3) = 2^3 + 1^3 = 9$ (Đ).<br>• c) $\\det(A^2) = (2 \\cdot 1)^2 = 4$ (Đ).<br>• d) $\\det(A) = 2 \\neq 0$ nên $A$ khả nghịch (S)."
+          },
+          {
+            id: 29, section: "PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI", type: "tf", points: 1.0,
+            question: "Cho ma trận $A = \\begin{pmatrix} 2 & 1 \\\\ 0 & 2 \\end{pmatrix}$. Xét tính đúng/sai:",
+            subQuestions: [
+              { label: "a)", text: "$A$ có giá trị riêng kép $\\lambda = 2$.", answer: true },
+              { label: "b)", text: "$A$ chéo hóa được trên $\\mathbb{R}$.", answer: false },
+              { label: "c)", text: "$A^2 = \\begin{pmatrix} 4 & 4 \\\\ 0 & 4 \\end{pmatrix}$.", answer: true },
+              { label: "d)", text: "$A^n = \\begin{pmatrix} 2^n & n 2^{n-1} \\\\ 0 & 2^n \\end{pmatrix}$ với mọi $n \\ge 1$.", answer: true }
+            ],
+            explanation: "• a) $\\det(A - \\lambda I) = (2 - \\lambda)^2$ (Đ).<br>• b) $\\dim(E_2) = 1 < 2$ nên không chéo hóa được (S).<br>• c) $\\begin{pmatrix} 2 & 1 \\\\ 0 & 2 \\end{pmatrix}^2 = \\begin{pmatrix} 4 & 4 \\\\ 0 & 4 \\end{pmatrix}$ (Đ).<br>• d) Công thức chuẩn cho ma trận Jordan khối $2 \\times 2$ trị riêng $2$ (Đ)."
+          },
+
+          // PHẦN III: TRẢ LỜI NGẮN (6 CÂU)
+          {
+            id: 30, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.16,
+            question: "Cho ma trận $A = \\begin{pmatrix} 1 & 2 \\\\ 0 & 1 \\end{pmatrix}$. Tính phần tử ở hàng 1, cột 2 của ma trận $A^7$.",
+            answer: "14",
+            explanation: "$A^n = \\begin{pmatrix} 1 & 2n \\\\ 0 & 1 \\end{pmatrix} \\implies$ với $n = 7$, phần tử $(1,2)$ là $2 \\times 7 = 14$."
+          },
+          {
+            id: 31, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.16,
+            question: "Cho ma trận $A$ cấp $3$ có các giá trị riêng là $1, -2, 2$. Tính $\\operatorname{tr}(A^2)$.",
+            answer: "9",
+            explanation: "$\\operatorname{tr}(A^2) = 1^2 + (-2)^2 + 2^2 = 1 + 4 + 4 = 9$."
+          },
+          {
+            id: 32, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.16,
+            question: "Cho ma trận $A = \\begin{pmatrix} 3 & 0 \\\\ 0 & -2 \\end{pmatrix}$. Tính tổng các phần tử của ma trận $A^3$.",
+            answer: "19",
+            explanation: "$A^3 = \\begin{pmatrix} 27 & 0 \\\\ 0 & -8 \\end{pmatrix} \\implies$ tổng các phần tử là $27 + 0 + 0 + (-8) = 19$."
+          },
+          {
+            id: 33, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.16,
+            question: "Cho $A = \\begin{pmatrix} 0 & 1 \\\\ 1 & 0 \\end{pmatrix}$. Tính phần tử ở hàng 1, cột 2 của ma trận $A^{2026}$.",
+            answer: "0",
+            explanation: "Vì $A^2 = I$, nên $A^{2026} = (A^2)^{1013} = I = \\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}$, phần tử $(1,2)$ bằng $0$."
+          },
+          {
+            id: 34, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.16,
+            question: "Cho ma trận vuông $A$ cấp $2$ có $\\det(A) = -2$. Tính $\\det(A^4)$.",
+            answer: "16",
+            explanation: "$\\det(A^4) = (\\det A)^4 = (-2)^4 = 16$."
+          },
+          {
+            id: 35, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.20,
+            question: "Cho ma trận $A = \\begin{pmatrix} 2 & 1 \\\\ 0 & 2 \\end{pmatrix}$. Tính phần tử ở hàng 1, cột 2 của ma trận $A^3$.",
+            answer: "12",
+            explanation: "Áp dụng công thức $A^n = \\begin{pmatrix} 2^n & n \\cdot 2^{n-1} \\\\ 0 & 2^n \\end{pmatrix}$ với $n = 3$: phần tử $(1,2)$ là $3 \\times 2^2 = 12$."
+          }
+        ]
+      },
+      de5: {
+        title: "Đề Thi Đại Số Tuyến Tính - Đề Số 5 (Chuyên Sâu Ma Trận, Hệ PTTT & Không Gian Véc-tơ)",
+        duration: 60,
+        questions: [
+          // PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN (25 CÂU)
+          {
+            id: 1, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho số phức $z = \\frac{1 + i}{1 - i}$. Giá trị của $z^{2026}$ bằng:",
+            options: ["$1$", "$-1$", "$i$", "$-i$"], answer: 1,
+            explanation: "Ta có $z = \\frac{(1+i)^2}{2} = \\frac{2i}{2} = i$. Suy ra $z^{2026} = i^{2026} = (i^4)^{506} \\cdot i^2 = -1$."
+          },
+          {
+            id: 2, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Số nghiệm phức phân biệt của phương trình $z^6 + 64 = 0$ là:",
+            options: ["$2$", "$3$", "$6$", "$0$"], answer: 2,
+            explanation: "Theo định lý cơ bản của đại số, phương trình đa thức bậc $6$ trên trường số phức $\\mathbb{C}$ với các hệ số không suy biến có đúng $6$ căn bậc 6 phân biệt."
+          },
+          {
+            id: 3, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho phép thế $\\sigma = \\begin{pmatrix} 1 & 2 & 3 & 4 & 5 \\\\ 3 & 5 & 4 & 1 & 2 \\end{pmatrix} \\in S_5$. Dấu $\\operatorname{sgn}(\\sigma)$ của phép thế này là:",
+            options: ["$+1$", "$-1$", "$0$", "$+2$"], answer: 1,
+            explanation: "Phân tích $\\sigma = (1\\ 3\\ 4)(2\\ 5)$ gồm 1 chu trình độ dài 3 (chẵn) và 1 chuyển trí độ dài 2 (lẻ), tổng số chuyển trí là $2 + 1 = 3$ (lẻ) $\\implies \\operatorname{sgn}(\\sigma) = -1$."
+          },
+          {
+            id: 4, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận $A = \\begin{pmatrix} 1 & 2 & 3 \\\\ 2 & 4 & 6 \\\\ -1 & -2 & -3 \\end{pmatrix}$. Hạng của ma trận $A$ bằng:",
+            options: ["$0$", "$1$", "$2$", "$3$"], answer: 1,
+            explanation: "Hàng 2 gấp 2 lần hàng 1, hàng 3 bằng $-1$ lần hàng 1. Sau khi khử Gauss chỉ còn 1 hàng khác không nên $\\operatorname{rank}(A) = 1$."
+          },
+          {
+            id: 5, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận vuông $A$ cấp $4$ có $\\det(A) = 3$. Giá trị của $\\det(-2A^T)$ bằng:",
+            options: ["$-24$", "$24$", "$-48$", "$48$"], answer: 3,
+            explanation: "$\\det(-2A^T) = (-2)^4 \\det(A^T) = 16 \\cdot \\det(A) = 16 \\times 3 = 48$."
+          },
+          {
+            id: 6, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận vuông $A$ cấp $3$ thỏa mãn $A^3 = 2I$. Định thức của ma trận $A$ bằng:",
+            options: ["$2$", "$8$", "$\\sqrt[3]{2}$", "$\\frac{2}{3}$"], answer: 2,
+            explanation: "Lấy định thức hai vế: $\\det(A^3) = \\det(2I) \\iff (\\det A)^3 = 2^3 \\cdot 1 = 8 \\implies \\det(A) = 2$... Khoan! Chú ý $2I$ cấp $3$ có $\\det(2I) = 2^3 = 8$, nên $(\\det A)^3 = 8 \\implies \\det(A) = 2$ (Đáp án A)."
+          },
+          {
+            id: 7, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Định thức $\\Delta = \\begin{vmatrix} 1 & 2 & 3 \\\\ 4 & 5 & 6 \\\\ 7 & 8 & 9 \\end{vmatrix}$ có giá trị bằng:",
+            options: ["$0$", "$1$", "$-1$", "$45$"], answer: 0,
+            explanation: "Các phần tử trên 3 hàng lập thành cấp số cộng với công sai $3$, nên $H_1 + H_3 = 2H_2 \\implies$ định thức bằng $0$."
+          },
+          {
+            id: 8, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho $A, B$ là hai ma trận vuông cấp $3$ có $\\det(A) = -2$ và $\\det(B) = 5$. Giá trị của $\\det(A^2 B^{-1})$ là:",
+            options: ["$-\\frac{4}{5}$", "$\\frac{4}{5}$", "$-20$", "$20$"], answer: 1,
+            explanation: "$\\det(A^2 B^{-1}) = (\\det A)^2 \\cdot (\\det B)^{-1} = (-2)^2 \\cdot \\frac{1}{5} = \\frac{4}{5}$."
+          },
+          {
+            id: 9, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận $A = \\begin{pmatrix} 1 & 2 \\\\ 3 & 4 \\end{pmatrix}$. Ma trận nghịch đảo $A^{-1}$ là:",
+            options: ["$-\\frac{1}{2}\\begin{pmatrix} 4 & -2 \\\\ -3 & 1 \\end{pmatrix}$", "$\\frac{1}{2}\\begin{pmatrix} 4 & -2 \\\\ -3 & 1 \\end{pmatrix}$", "$-\\frac{1}{2}\\begin{pmatrix} 1 & -2 \\\\ -3 & 4 \\end{pmatrix}$", "$\\begin{pmatrix} 4 & -2 \\\\ -3 & 1 \\end{pmatrix}$"], answer: 0,
+            explanation: "$\\det(A) = 4 - 6 = -2$. Áp dụng công thức ma trận nghịch đảo cấp 2: $A^{-1} = \\frac{1}{-2}\\begin{pmatrix} 4 & -2 \\\\ -3 & 1 \\end{pmatrix}$."
+          },
+          {
+            id: 10, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Theo định lý Kronecker - Capelli, hệ phương trình tuyến tính $AX = B$ có nghiệm khi và chỉ khi:",
+            options: ["$\\operatorname{rank}(A) = \\operatorname{rank}(A|B)$", "$\\operatorname{rank}(A) < \\operatorname{rank}(A|B)$", "$\\det(A) \\neq 0$", "$B = 0$"], answer: 0,
+            explanation: "Định lý Kronecker - Capelli: Hệ có nghiệm khi và chỉ khi hạng của ma trận hệ số bằng hạng của ma trận mở rộng."
+          },
+          {
+            id: 11, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Hệ phương trình tuyến tính thuần nhất $AX = 0$ gồm $4$ phương trình và $4$ ẩn có nghiệm không tầm thường khi và chỉ khi:",
+            options: ["$\\det(A) = 0$", "$\\det(A) \\neq 0$", "$\\operatorname{rank}(A) = 4$", "$A = I_4$"], answer: 0,
+            explanation: "Hệ thuần nhất vuông có nghiệm không tầm thường (vô số nghiệm) khi và chỉ khi ma trận hệ số suy biến: $\\det(A) = 0$."
+          },
+          {
+            id: 12, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho hệ thuần nhất $AX = 0$ với $A$ cỡ $3 \\times 6$ và $\\operatorname{rank}(A) = 2$. Một hệ nghiệm cơ bản của hệ này gồm bao nhiêu véc-tơ?",
+            options: ["$2$", "$3$", "$4$", "$6$"], answer: 2,
+            explanation: "Số véc-tơ trong một hệ nghiệm cơ bản bằng số chiều không gian nghiệm: $n - \\operatorname{rank}(A) = 6 - 2 = 4$."
+          },
+          {
+            id: 13, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Nếu $X_1, X_2$ là hai nghiệm phân biệt của hệ không thuần nhất $AX = B$ ($B \\neq 0$), thì véc-tơ nào sau đây là nghiệm của hệ thuần nhất $AX = 0$?",
+            options: ["$X_1 + X_2$", "$X_1 - X_2$", "$2X_1 + X_2$", "$\\frac{1}{2}(X_1 + X_2)$"], answer: 1,
+            explanation: "$A(X_1 - X_2) = AX_1 - AX_2 = B - B = 0$, nên $X_1 - X_2$ là nghiệm của hệ thuần nhất liên kết."
+          },
+          {
+            id: 14, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Trong không gian $\\mathbb{R}^3$, cho hai véc-tơ $u = (1, 2, -1)$ và $v = (2, 4, m)$. Tìm $m$ để hệ $\\{u, v\\}$ phụ thuộc tuyến tính:",
+            options: ["$m = 2$", "$m = -2$", "$m = 1$", "$m = 0$"], answer: 1,
+            explanation: "Hai véc-tơ phụ thuộc tuyến tính khi chúng tỉ lệ với nhau: $\\frac{2}{1} = \\frac{4}{2} = \\frac{m}{-1} \\implies m = -2$."
+          },
+          {
+            id: 15, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho không gian con $W = \\{(x_1, x_2, x_3, x_4) \\in \\mathbb{R}^4 \\mid x_1 + x_2 = 0 \\text{ và } x_3 - x_4 = 0\\}$. Số chiều $\\dim(W)$ bằng:",
+            options: ["$1$", "$2$", "$3$", "$4$"], answer: 1,
+            explanation: "Có 4 biến và 2 phương trình ràng buộc độc lập tuyến tính nên số ẩn tự do là $4 - 2 = 2 \\implies \\dim(W) = 2$."
+          },
+          {
+            id: 16, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Tọa độ của véc-tơ $v = (5, 7)$ trong cơ sở $B = \\{(1, 1), (1, 2)\\}$ của $\\mathbb{R}^2$ là:",
+            options: ["$(3, 2)^T$", "$(2, 3)^T$", "$(5, 7)^T$", "$(1, 2)^T$"], answer: 0,
+            explanation: "Giải $x(1, 1) + y(1, 2) = (5, 7) \\iff \\begin{cases} x + y = 5 \\\\ x + 2y = 7 \\end{cases} \\iff x = 3, y = 2$."
+          },
+          {
+            id: 17, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho $S$ là tập sinh của không gian véc-tơ $V$ có $\\dim(V) = 5$. Số lượng véc-tơ tối thiểu có thể có trong $S$ là:",
+            options: ["$4$", "$5$", "$6$", "$1$"], answer: 1,
+            explanation: "Một tập sinh của không gian $n$ chiều luôn phải chứa ít nhất $n$ véc-tơ (khi đạt đúng $n$ véc-tơ thì nó chính là một cơ sở)."
+          },
+          {
+            id: 18, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Tập hợp nào sau đây <b>không</b> phải là không gian con của $\\mathbb{R}^3$?",
+            options: ["$\\{(x, y, z) \\mid x + y + z = 0\\}$", "$\\{(x, y, z) \\mid x = 2y = 3z\\}$", "$\\{(x, y, z) \\mid x + y + z = 1\\}$", "$\\{(0, 0, 0)\\}$"], answer: 2,
+            explanation: "Tập $\\{(x,y,z) \\mid x+y+z=1\\}$ không chứa véc-tơ không $(0,0,0)$ nên không thể là không gian véc-tơ con."
+          },
+          {
+            id: 19, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho hai cơ sở $B_1, B_2$ của $\\mathbb{R}^n$. Nếu $P$ là ma trận chuyển cơ sở từ $B_1$ sang $B_2$, thì ma trận chuyển cơ sở từ $B_2$ sang $B_1$ là:",
+            options: ["$-P$", "$P^T$", "$P^{-1}$", "$P$"], answer: 2,
+            explanation: "Phép chuyển cơ sở ngược lại tương ứng với ma trận nghịch đảo $P^{-1}$."
+          },
+          {
+            id: 20, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận $A$ cỡ $3 \\times 4$ và $B$ cỡ $4 \\times 2$. Cỡ của ma trận tích $AB$ là:",
+            options: ["$3 \\times 2$", "$4 \\times 4$", "$2 \\times 3$", "Không nhân được"], answer: 0,
+            explanation: "Ma trận cỡ $(3 \\times 4)$ nhân với ma trận cỡ $(4 \\times 2)$ cho kết quả là ma trận cỡ $(3 \\times 2)$."
+          },
+          {
+            id: 21, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận vuông $A$ cấp $n$ thỏa mãn $A^2 - 4A + I = 0$. Ma trận nghịch đảo $A^{-1}$ bằng:",
+            options: ["$4I - A$", "$A - 4I$", "$4A - I$", "$I - 4A$"], answer: 0,
+            explanation: "$A^2 - 4A + I = 0 \\iff A(4I - A) = I \\implies A^{-1} = 4I - A$."
+          },
+          {
+            id: 22, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Khẳng định nào sau đây là <b>sai</b> về các phép biến đổi sơ cấp trên hàng của ma trận?",
+            options: ["Đổi chỗ hai hàng làm đổi dấu định thức", "Nhân một hàng với $k \\neq 0$ làm định thức nhân lên $k$ lần", "Cộng vào một hàng bội số của hàng khác làm thay đổi giá trị định thức", "Các phép biến đổi sơ cấp không làm thay đổi hạng của ma trận"], answer: 2,
+            explanation: "Cộng vào một hàng bội số của hàng khác giữ nguyên giá trị của định thức."
+          },
+          {
+            id: 23, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho hệ phương trình Cramer $AX = B$ cấp $3$ có $\\det(A) = 4$ và định thức thay cột 2 bằng cột vế phải là $\\det(A_2) = -12$. Nghiệm $x_2$ bằng:",
+            options: ["$-3$", "$3$", "$-\\frac{1}{3}$", "$-48$"], answer: 0,
+            explanation: "Theo quy tắc Cramer: $x_2 = \\frac{\\det(A_2)}{\\det(A)} = \\frac{-12}{4} = -3$."
+          },
+          {
+            id: 24, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ánh xạ tuyến tính $f: \\mathbb{R}^4 \\to \\mathbb{R}^2$ là toàn ánh. Số chiều của $\\ker(f)$ bằng:",
+            options: ["$0$", "$1$", "$2$", "$4$"], answer: 2,
+            explanation: "Vì $f$ toàn ánh nên $\\dim(\\operatorname{Im} f) = \\dim(\\mathbb{R}^2) = 2$. Theo định lý hạng - số hụt: $\\dim(\\ker f) = 4 - 2 = 2$."
+          },
+          {
+            id: 25, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Tổng tất cả các nghiệm của phương trình đa thức đặc trưng của ma trận $A = \\begin{pmatrix} 5 & -2 & 1 \\\\ 0 & 3 & 4 \\\\ 0 & 0 & -2 \\end{pmatrix}$ là:",
+            options: ["$6$", "$-30$", "$10$", "$8$"], answer: 0,
+            explanation: "Tổng các nghiệm của đa thức đặc trưng (tức tổng các trị riêng) bằng vết ma trận: $5 + 3 + (-2) = 6$."
+          },
+
+          // PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI (4 CÂU)
+          {
+            id: 26, section: "PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI", type: "tf", points: 1.0,
+            question: "Cho ma trận chứa tham số $m$: $A = \\begin{pmatrix} 1 & 2 & 1 \\\\ 2 & 4 & 2 \\\\ 1 & 2 & m \\end{pmatrix}$. Xét tính đúng/sai:",
+            subQuestions: [
+              { label: "a)", text: "Định thức $\\det(A) = 0$ với mọi giá trị của $m$.", answer: true },
+              { label: "b)", text: "Khi $m = 1$, hạng của ma trận $\\operatorname{rank}(A) = 1$.", answer: true },
+              { label: "c)", text: "Khi $m \\neq 1$, hạng của ma trận $\\operatorname{rank}(A) = 2$.", answer: true },
+              { label: "d)", text: "Tồn tại giá trị của $m$ để ma trận $A$ khả nghịch.", answer: false }
+            ],
+            explanation: "• a) Hàng 2 tỉ lệ với hàng 1 ($H_2 = 2H_1$) nên $\\det(A) = 0$ với mọi $m$ (Đ).<br>• b) Khi $m = 1$, cả 3 hàng tỉ lệ với nhau nên $\\operatorname{rank}(A) = 1$ (Đ).<br>• c) Khi $m \\neq 1$, hàng 1 và hàng 3 độc lập tuyến tính nên $\\operatorname{rank}(A) = 2$ (Đ).<br>• d) Vì $\\det(A) = 0$ với mọi $m$ nên $A$ không bao giờ khả nghịch (S)."
+          },
+          {
+            id: 27, section: "PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI", type: "tf", points: 1.0,
+            question: "Cho hệ phương trình tuyến tính thuần nhất $\\begin{cases} x_1 + 2x_2 - x_3 + 3x_4 = 0 \\\\ 2x_1 + 4x_2 - 2x_3 + 6x_4 = 0 \\end{cases}$. Xét tính đúng/sai:",
+            subQuestions: [
+              { label: "a)", text: "Hạng của ma trận hệ số bằng $1$.", answer: true },
+              { label: "b)", text: "Số chiều không gian nghiệm của hệ bằng $3$.", answer: true },
+              { label: "c)", text: "Véc-tơ $u = (-2, 1, 0, 0)$ là một nghiệm của hệ.", answer: true },
+              { label: "d)", text: "Hệ có nghiệm duy nhất là nghiệm tầm thường.", answer: false }
+            ],
+            explanation: "• a) Phương trình 2 gấp đôi phương trình 1 nên $\\operatorname{rank}(A) = 1$ (Đ).<br>• b) $\\dim(S) = 4 - 1 = 3$ (Đ).<br>• c) Thay $u = (-2, 1, 0, 0)$ vào ta được $-2 + 2(1) - 0 + 0 = 0$ (Đ).<br>• d) Hệ có vô số nghiệm phụ thuộc 3 tham số (S)."
+          },
+          {
+            id: 28, section: "PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI", type: "tf", points: 1.0,
+            question: "Trong không gian $\\mathbb{R}^3$, xét hệ véc-tơ $S = \\{v_1 = (1, 1, 0), v_2 = (0, 1, 1), v_3 = (1, 2, 1)\\}$. Xét tính đúng/sai:",
+            subQuestions: [
+              { label: "a)", text: "Ta có đẳng thức $v_3 = v_1 + v_2$.", answer: true },
+              { label: "b)", text: "Hệ $S$ phụ thuộc tuyến tính.", answer: true },
+              { label: "c)", text: "Hạng của hệ véc-tơ $S$ bằng $2$.", answer: true },
+              { label: "d)", text: "Không gian sinh $\\operatorname{span}(S)$ trùng với toàn bộ không gian $\\mathbb{R}^3$.", answer: false }
+            ],
+            explanation: "• a) $(1,1,0) + (0,1,1) = (1,2,1) = v_3$ (Đ).<br>• b) Vì $v_3$ là tổ hợp tuyến tính của $v_1, v_2$ nên hệ phụ thuộc tuyến tính (Đ).<br>• c) Hai véc-tơ $v_1, v_2$ độc lập tuyến tính nên $\\operatorname{rank}(S) = 2$ (Đ).<br>• d) $\\dim(\\operatorname{span}(S)) = 2 < 3$ nên chỉ là một mặt phẳng qua gốc tọa độ trong $\\mathbb{R}^3$ (S)."
+          },
+          {
+            id: 29, section: "PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI", type: "tf", points: 1.0,
+            question: "Cho số phức $z = \\sqrt{3} - i$. Xét dạng lượng giác và lũy thừa của $z$:",
+            subQuestions: [
+              { label: "a)", text: "Mô-đun của số phức $z$ bằng $2$.", answer: true },
+              { label: "b)", text: "Một acgumen của $z$ là $-\\frac{\\pi}{6}$.", answer: true },
+              { label: "c)", text: "$z^3$ là một số thuần ảo.", answer: true },
+              { label: "d)", text: "$z^6 = 64$.", answer: false }
+            ],
+            explanation: "• a) $|z| = \\sqrt{(\\sqrt{3})^2 + (-1)^2} = 2$ (Đ).<br>• b) $z = 2\\left(\\cos(-\\frac{\\pi}{6}) + i\\sin(-\\frac{\\pi}{6})\\right)$ (Đ).<br>• c) $z^3 = 2^3(\\cos(-\\frac{\\pi}{2}) + i\\sin(-\\frac{\\pi}{2})) = -8i$ là số thuần ảo (Đ).<br>• d) $z^6 = (-8i)^2 = 64i^2 = -64 \\neq 64$ (S)."
+          },
+
+          // PHẦN III: TRẢ LỜI NGẮN (6 CÂU)
+          {
+            id: 30, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.16,
+            question: "Cho ma trận $A = \\begin{pmatrix} 2 & -1 & 3 \\\\ 4 & -2 & 6 \\\\ 0 & 0 & 5 \\end{pmatrix}$. Tìm hạng của ma trận $A$.",
+            answer: "2",
+            explanation: "Hàng 2 gấp đôi hàng 1 nên khử được 1 hàng; còn lại hàng 1 và hàng 3 độc lập tuyến tính nên $\\operatorname{rank}(A) = 2$."
+          },
+          {
+            id: 31, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.16,
+            question: "Cho ma trận vuông $A$ cấp $3$ có $\\det(A) = -2$. Tính $\\det(3A^T)$.",
+            answer: "-54",
+            explanation: "$\\det(3A^T) = 3^3 \\cdot \\det(A^T) = 27 \\times (-2) = -54$."
+          },
+          {
+            id: 32, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.16,
+            question: "Cho phép thế $\\sigma = \\begin{pmatrix} 1 & 2 & 3 & 4 & 5 \\\\ 2 & 3 & 1 & 5 & 4 \\end{pmatrix} \\in S_5$. Tính cấp của phép thế $\\sigma$.",
+            answer: "6",
+            explanation: "Phân tích $\\sigma = (1\\ 2\\ 3)(4\\ 5)$ thành hai chu trình rời có độ dài $3$ và $2$. Cấp của $\\sigma$ là $\\operatorname{BCNN}(3, 2) = 6$."
+          },
+          {
+            id: 33, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.16,
+            question: "Cho số phức $z = 1 - i$. Tính phần ảo của số phức $z^4$.",
+            answer: "0",
+            explanation: "$(1 - i)^2 = -2i \\implies z^4 = (-2i)^2 = -4 = -4 + 0i$, nên phần ảo bằng $0$."
+          },
+          {
+            id: 34, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.16,
+            question: "Cho hệ phương trình tuyến tính thuần nhất gồm $3$ phương trình và $7$ ẩn có hạng ma trận hệ số bằng $3$. Tính số chiều của không gian nghiệm.",
+            answer: "4",
+            explanation: "$\\dim(S) = n - \\operatorname{rank}(A) = 7 - 3 = 4$."
+          },
+          {
+            id: 35, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.20,
+            question: "Cho ma trận $A$ cấp $2$ thỏa mãn $A^2 - 5A + 4I = 0$ ($A$ có 2 trị riêng phân biệt). Tính vết $\\operatorname{tr}(A)$.",
+            answer: "5",
+            explanation: "Phương trình đặc trưng có hai nghiệm $\\lambda_1 = 1, \\lambda_2 = 4$, nên vết $\\operatorname{tr}(A) = 1 + 4 = 5$."
+          }
+        ]
+      },
+      de6: {
+        title: "Đề Thi Đại Số Tuyến Tính - Đề Số 6 (Chuyên Sâu Ánh Xạ Tuyến Tính, Cơ Sở & Chéo Hóa)",
+        duration: 60,
+        questions: [
+          // PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN (25 CÂU)
+          {
+            id: 1, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ánh xạ tuyến tính $f: \\mathbb{R}^3 \\to \\mathbb{R}^2$ xác định bởi $f(x, y, z) = (x + 2y - z, 3x - y + 4z)$. Ma trận của $f$ đối với cặp cơ sở chính tắc là:",
+            options: ["$\\begin{pmatrix} 1 & 2 & -1 \\\\ 3 & -1 & 4 \\end{pmatrix}$", "$\\begin{pmatrix} 1 & 3 \\\\ 2 & -1 \\\\ -1 & 4 \\end{pmatrix}$", "$\\begin{pmatrix} 1 & -1 & 4 \\\\ 3 & 2 & -1 \\end{pmatrix}$", "$\\begin{pmatrix} 3 & -1 & 4 \\\\ 1 & 2 & -1 \\end{pmatrix}$"], answer: 0,
+            explanation: "Tọa độ ảnh của từng véc-tơ cơ sở chính tắc $e_1, e_2, e_3$ xếp thành các cột của ma trận: cột 1 là $(1,3)^T$, cột 2 là $(2,-1)^T$, cột 3 là $(-1,4)^T$."
+          },
+          {
+            id: 2, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho toán tử tuyến tính $f: \\mathbb{R}^2 \\to \\mathbb{R}^2$ có ma trận trong cơ sở chính tắc là $A = \\begin{pmatrix} 2 & 1 \\\\ 4 & 2 \\end{pmatrix}$. Một cơ sở của không gian nhân $\\ker(f)$ là:",
+            options: ["$\\{(1, -2)\\}$", "$\\{(2, 1)\\}$", "$\\{(1, 2)\\}$", "$\\{(0, 0)\\}$"], answer: 0,
+            explanation: "Giải $AX = 0 \\iff 2x + y = 0 \\iff y = -2x$. Chọn $x = 1 \\implies y = -2$, vậy cơ sở của $\\ker(f)$ là $\\{(1, -2)\\}$."
+          },
+          {
+            id: 3, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Với toán tử $f$ có ma trận $A = \\begin{pmatrix} 2 & 1 \\\\ 4 & 2 \\end{pmatrix}$ ở câu trên, không gian ảnh $\\operatorname{Im}(f)$ có số chiều bằng:",
+            options: ["$0$", "$1$", "$2$", "$3$"], answer: 1,
+            explanation: "$\\dim(\\operatorname{Im} f) = \\operatorname{rank}(A) = 1$ (do hàng 2 gấp đôi hàng 1)."
+          },
+          {
+            id: 4, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho toán tử tuyến tính $f: V \\to V$ có ma trận trong cơ sở $B$ là $A$, và $P$ là ma trận chuyển cơ sở từ $B$ sang $B'$. Ma trận $A'$ của $f$ trong cơ sở $B'$ được tính bởi công thức:",
+            options: ["$A' = P A P^{-1}$", "$A' = P^{-1} A P$", "$A' = P^T A P$", "$A' = A P$"], answer: 1,
+            explanation: "Theo công thức đổi cơ sở của toán tử tuyến tính: $A' = P^{-1} A P$."
+          },
+          {
+            id: 5, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Trong $\\mathbb{R}^2$, cho cơ sở $B = \\{(1, 2), (2, 5)\\}$. Ma trận chuyển cơ sở $P$ từ cơ sở chính tắc $E$ sang cơ sở $B$ là:",
+            options: ["$\\begin{pmatrix} 1 & 2 \\\\ 2 & 5 \\end{pmatrix}$", "$\\begin{pmatrix} 5 & -2 \\\\ -2 & 1 \\end{pmatrix}$", "$\\begin{pmatrix} 1 & 2 \\\\ 5 & 2 \\end{pmatrix}$", "$\\begin{pmatrix} 2 & 1 \\\\ 5 & 2 \\end{pmatrix}$"], answer: 0,
+            explanation: "Ma trận chuyển từ cơ sở chính tắc sang cơ sở $B$ có các cột chính là tọa độ của các véc-tơ trong $B$: $\\begin{pmatrix} 1 & 2 \\\\ 2 & 5 \\end{pmatrix}$."
+          },
+          {
+            id: 6, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Từ kết quả câu trên với $P = \\begin{pmatrix} 1 & 2 \\\\ 2 & 5 \\end{pmatrix}$, ma trận chuyển cơ sở ngược lại từ $B$ về cơ sở chính tắc $E$ là:",
+            options: ["$\\begin{pmatrix} 5 & -2 \\\\ -2 & 1 \\end{pmatrix}$", "$\\begin{pmatrix} -5 & 2 \\\\ 2 & -1 \\end{pmatrix}$", "$\\begin{pmatrix} 1 & -2 \\\\ -2 & 5 \\end{pmatrix}$", "$\\begin{pmatrix} 5 & 2 \\\\ 2 & 1 \\end{pmatrix}$"], answer: 0,
+            explanation: "Tính $\\det(P) = 1\\cdot 5 - 2\\cdot 2 = 1$, nên $P^{-1} = \\begin{pmatrix} 5 & -2 \\\\ -2 & 1 \\end{pmatrix}$."
+          },
+          {
+            id: 7, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận $A = \\begin{pmatrix} 5 & 3 \\\\ -2 & 0 \\end{pmatrix}$. Đa thức đặc trưng $P(\\lambda) = \\det(A - \\lambda I)$ của $A$ là:",
+            options: ["$\\lambda^2 - 5\\lambda + 6$", "$\\lambda^2 + 5\\lambda + 6$", "$\\lambda^2 - 5\\lambda - 6$", "$\\lambda^2 - 6\\lambda + 5$"], answer: 0,
+            explanation: "$\\det\\begin{pmatrix} 5-\\lambda & 3 \\\\ -2 & -\\lambda \\end{pmatrix} = (5-\\lambda)(-\\lambda) - (-6) = \\lambda^2 - 5\\lambda + 6$."
+          },
+          {
+            id: 8, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Với ma trận $A = \\begin{pmatrix} 5 & 3 \\\\ -2 & 0 \\end{pmatrix}$ ở câu trên, các giá trị riêng của $A$ là:",
+            options: ["$\\lambda_1 = 2, \\lambda_2 = 3$", "$\\lambda_1 = -2, \\lambda_2 = -3$", "$\\lambda_1 = 1, \\lambda_2 = 6$", "$\\lambda_1 = -1, \\lambda_2 = 6$"], answer: 0,
+            explanation: "Giải phương trình đặc trưng $\\lambda^2 - 5\\lambda + 6 = 0 \\iff \\lambda = 2$ hoặc $\\lambda = 3$."
+          },
+          {
+            id: 9, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Với $A = \\begin{pmatrix} 5 & 3 \\\\ -2 & 0 \\end{pmatrix}$, một véc-tơ riêng ứng với trị riêng $\\lambda_1 = 2$ là:",
+            options: ["$(1, -1)^T$", "$(3, -2)^T$", "$(1, 1)^T$", "$(2, -3)^T$"], answer: 0,
+            explanation: "Giải $(A - 2I)X = 0 \\iff \\begin{pmatrix} 3 & 3 \\\\ -2 & -2 \\end{pmatrix}\\begin{pmatrix} x \\\\ y \\end{pmatrix} = \\begin{pmatrix} 0 \\\\ 0 \\end{pmatrix} \\iff x + y = 0$, chọn $(1, -1)^T$."
+          },
+          {
+            id: 10, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Với $A = \\begin{pmatrix} 5 & 3 \\\\ -2 & 0 \\end{pmatrix}$, một véc-tơ riêng ứng với trị riêng $\\lambda_2 = 3$ là:",
+            options: ["$(3, -2)^T$", "$(2, -3)^T$", "$(1, -1)^T$", "$(3, 2)^T$"], answer: 0,
+            explanation: "Giải $(A - 3I)X = 0 \\iff \\begin{pmatrix} 2 & 3 \\\\ -2 & -3 \\end{pmatrix}\\begin{pmatrix} x \\\\ y \\end{pmatrix} = \\begin{pmatrix} 0 \\\\ 0 \\end{pmatrix} \\iff 2x + 3y = 0$, chọn $(3, -2)^T$."
+          },
+          {
+            id: 11, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Sử dụng kết quả chéo hóa của $A = \\begin{pmatrix} 5 & 3 \\\\ -2 & 0 \\end{pmatrix}$ ở trên, giá trị của $\\operatorname{tr}(A^4)$ bằng:",
+            options: ["$97$", "$65$", "$17$", "$81$"], answer: 0,
+            explanation: "$\\operatorname{tr}(A^4) = \\lambda_1^4 + \\lambda_2^4 = 2^4 + 3^4 = 16 + 81 = 97$."
+          },
+          {
+            id: 12, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận $A = \\begin{pmatrix} 1 & 2 \\\\ 2 & 4 \\end{pmatrix}$. Hai giá trị riêng của $A$ là:",
+            options: ["$\\lambda_1 = 0, \\lambda_2 = 5$", "$\\lambda_1 = 1, \\lambda_2 = 4$", "$\\lambda_1 = 0, \\lambda_2 = 4$", "$\\lambda_1 = 2, \\lambda_2 = 3$"], answer: 0,
+            explanation: "Do $\\det(A) = 0$ nên có một trị riêng bằng $0$; trị riêng còn lại bằng $\\operatorname{tr}(A) - 0 = 1 + 4 = 5$."
+          },
+          {
+            id: 13, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Từ kết quả câu trên với $A = \\begin{pmatrix} 1 & 2 \\\\ 2 & 4 \\end{pmatrix}$, biểu thức của $A^n$ ($n \\ge 1$) bằng:",
+            options: ["$5^{n-1} A$", "$5^n A$", "$n A$", "$4^{n-1} A$"], answer: 0,
+            explanation: "Ta có $A^2 = \\begin{pmatrix} 5 & 10 \\\\ 10 & 20 \\end{pmatrix} = 5A$. Bằng quy nạp suy ra $A^n = 5^{n-1} A$ với mọi $n \\ge 1$."
+          },
+          {
+            id: 14, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận $A$ cấp $3$ có đa thức đặc trưng $P(\\lambda) = -\\lambda^3 + 4\\lambda^2 - 5\\lambda + 2$. Định thức $\\det(A)$ bằng:",
+            options: ["$2$", "$-2$", "$4$", "$-5$"], answer: 0,
+            explanation: "Thay $\\lambda = 0$ vào đa thức đặc trưng: $\\det(A) = P(0) = 2$."
+          },
+          {
+            id: 15, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận vuông $A$ cấp $3$ có $\\det(A) = 3$. Giá trị của $\\det(2 A^{-1})$ bằng:",
+            options: ["$\\frac{8}{3}$", "$\\frac{2}{3}$", "$6$", "$24$"], answer: 0,
+            explanation: "$\\det(2 A^{-1}) = 2^3 \\cdot \\det(A^{-1}) = 8 \\cdot \\frac{1}{3} = \\frac{8}{3}$."
+          },
+          {
+            id: 16, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Trong không gian $\\mathbb{R}^3$, cho hệ véc-tơ $S = \\{(1, 2, 3), (2, 5, 7), (3, 7, m)\\}$. Giá trị của $m$ để $S$ không là cơ sở của $\\mathbb{R}^3$ là:",
+            options: ["$m = 10$", "$m = 9$", "$m = 11$", "$m = 0$"], answer: 0,
+            explanation: "Nhận thấy $(1, 2, 3) + (2, 5, 7) = (3, 7, 10)$, nên khi $m = 10$ véc-tơ thứ 3 là tổng hai véc-tơ đầu, khiến hệ phụ thuộc tuyến tính."
+          },
+          {
+            id: 17, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ánh xạ tuyến tính $f: P_3[x] \\to P_2[x]$ định nghĩa bởi $f(p(x)) = p'(x)$. Số chiều của $\\ker(f)$ là:",
+            options: ["$1$", "$2$", "$3$", "$0$"], answer: 0,
+            explanation: "$p'(x) = 0 \\iff p(x) = c$ (đa thức hằng), không gian các đa thức hằng có số chiều bằng $1$."
+          },
+          {
+            id: 18, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho số phức $z = 1 + i\\sqrt{3}$. Giá trị của $z^3$ bằng:",
+            options: ["$-8$", "$8$", "$8i$", "$-8i$"], answer: 0,
+            explanation: "$z = 2\\left(\\cos\\frac{\\pi}{3} + i\\sin\\frac{\\pi}{3}\\right) \\implies z^3 = 2^3(\\cos\\pi + i\\sin\\pi) = -8$."
+          },
+          {
+            id: 19, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận $A$ cấp $3$ có các giá trị riêng là $\\lambda_1 = 1, \\lambda_2 = 2, \\lambda_3 = -1$. Giá trị riêng của ma trận $B = A^2 + 2I$ là:",
+            options: ["$3, 6, 3$", "$1, 4, 1$", "$3, 4, 1$", "$2, 6, 0$"], answer: 0,
+            explanation: "Mỗi trị riêng $\\lambda$ của $A$ cho trị riêng $\\lambda^2 + 2$ của $B$: $1^2+2 = 3$, $2^2+2 = 6$, $(-1)^2+2 = 3$."
+          },
+          {
+            id: 20, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Hệ phương trình tuyến tính thuần nhất $AX = 0$ gồm $5$ phương trình và $5$ ẩn có $\\operatorname{rank}(A) = 3$. Số véc-tơ độc lập tuyến tính tối đa trong tập nghiệm là:",
+            options: ["$2$", "$3$", "$5$", "$0$"], answer: 0,
+            explanation: "Số chiều của không gian nghiệm là $n - \\operatorname{rank}(A) = 5 - 3 = 2$."
+          },
+          {
+            id: 21, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận $A = \\begin{pmatrix} 0 & -1 \\\\ 1 & 0 \\end{pmatrix}$. Tính $A^4$:",
+            options: ["$I$", "$-I$", "$A$", "$-A$"], answer: 0,
+            explanation: "$A^2 = \\begin{pmatrix} -1 & 0 \\\\ 0 & -1 \\end{pmatrix} = -I \\implies A^4 = (-I)^2 = I$."
+          },
+          {
+            id: 22, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho ma trận vuông $A$ thỏa mãn $A^2 = A$ (ma trận lũy đẳng). Các giá trị riêng có thể có của $A$ chỉ thuộc tập hợp nào?",
+            options: ["$\\{0, 1\\}$", "$\\{-1, 1\\}$", "$\\{0, -1\\}$", "$\\{1, 2\\}$"], answer: 0,
+            explanation: "Nếu $AX = \\lambda X$ ($X \\neq 0$), thì $A^2 X = \\lambda^2 X$. Do $A^2 = A$ nên $\\lambda^2 = \\lambda \\iff \\lambda \\in \\{0, 1\\}$."
+          },
+          {
+            id: 23, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho hai không gian con $U, W$ của $\\mathbb{R}^5$ sao cho $\\mathbb{R}^5 = U \\oplus W$ (tổng trực tiếp) và $\\dim(U) = 3$. Số chiều $\\dim(W)$ bằng:",
+            options: ["$2$", "$3$", "$5$", "$0$"], answer: 0,
+            explanation: "Vì là tổng trực tiếp nên $\\dim(U \\oplus W) = \\dim(U) + \\dim(W) = 5 \\implies \\dim(W) = 5 - 3 = 2$."
+          },
+          {
+            id: 24, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Cho phép thế $\\tau = (1\\ 3\\ 5\\ 2) \\in S_5$. Phép thế nghịch đảo $\\tau^{-1}$ là:",
+            options: ["$(1\\ 2\\ 5\\ 3)$", "$(1\\ 3\\ 5\\ 2)$", "$(2\\ 5\\ 3\\ 1)$", "Cả A và C đều đúng"], answer: 3,
+            explanation: "Nghịch đảo của chu trình $(1\\ 3\\ 5\\ 2)$ viết ngược lại là $(2\\ 5\\ 3\\ 1)$, cũng chính là $(1\\ 2\\ 5\\ 3)$."
+          },
+          {
+            id: 25, section: "PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN", type: "mcq", points: 0.2,
+            question: "Nếu $A$ là ma trận phản đối xứng ($A^T = -A$) cấp lẻ ($n = 3$), thì định thức $\\det(A)$ luôn bằng:",
+            options: ["$0$", "$1$", "$-1$", "Không xác định"], answer: 0,
+            explanation: "$\\det(A) = \\det(A^T) = \\det(-A) = (-1)^3 \\det(A) = -\\det(A) \\implies 2\\det(A) = 0 \\implies \\det(A) = 0$."
+          },
+
+          // PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI (4 CÂU)
+          {
+            id: 26, section: "PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI", type: "tf", points: 1.0,
+            question: "Cho toán tử tuyến tính $f: \\mathbb{R}^2 \\to \\mathbb{R}^2$ xác định bởi $f(x, y) = (3x + y, x + 3y)$. Xét tính đúng/sai:",
+            subQuestions: [
+              { label: "a)", text: "Ma trận của $f$ trong cơ sở chính tắc là $A = \\begin{pmatrix} 3 & 1 \\\\ 1 & 3 \\end{pmatrix}$.", answer: true },
+              { label: "b)", text: "Hai giá trị riêng của $f$ là $\\lambda_1 = 4$ và $\\lambda_2 = 2$.", answer: true },
+              { label: "c)", text: "Véc-tơ $u = (1, 1)$ là véc-tơ riêng ứng với trị riêng $\\lambda_1 = 4$.", answer: true },
+              { label: "d)", text: "Toán tử $f$ không chéo hóa được.", answer: false }
+            ],
+            explanation: "• a) $f(1,0)=(3,1)$ và $f(0,1)=(1,3)$ (Đ).<br>• b) $\\operatorname{tr}(A)=6, \\det(A)=8 \\implies \\lambda = 4, 2$ (Đ).<br>• c) $f(1,1) = (4,4) = 4(1,1)$ (Đ).<br>• d) Có 2 trị riêng phân biệt nên $f$ chéo hóa được (S)."
+          },
+          {
+            id: 27, section: "PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI", type: "tf", points: 1.0,
+            question: "Cho ma trận $A = \\begin{pmatrix} 0 & 1 \\\\ -1 & 0 \\end{pmatrix}$ trên trường số thực $\\mathbb{R}$. Xét tính đúng/sai:",
+            subQuestions: [
+              { label: "a)", text: "Đa thức đặc trưng của $A$ là $\\lambda^2 + 1$.", answer: true },
+              { label: "b)", text: "Ma trận $A$ không có giá trị riêng thực nào.", answer: true },
+              { label: "c)", text: "Ma trận $A$ không chéo hóa được trên trường số thực $\\mathbb{R}$.", answer: true },
+              { label: "d)", text: "$A^{100} = -I$.", answer: false }
+            ],
+            explanation: "• a) $\\det(A - \\lambda I) = \\lambda^2 + 1$ (Đ).<br>• b) $\\lambda^2 + 1 = 0$ vô nghiệm trên $\\mathbb{R}$ (Đ).<br>• c) Không có trị riêng thực nên không chéo hóa được trên $\\mathbb{R}$ (Đ).<br>• d) Vì $A^4 = I$ nên $A^{100} = (A^4)^{25} = I \\neq -I$ (S)."
+          },
+          {
+            id: 28, section: "PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI", type: "tf", points: 1.0,
+            question: "Cho ánh xạ tuyến tính $f: \\mathbb{R}^3 \\to \\mathbb{R}^3$ có ma trận $A = \\begin{pmatrix} 1 & 2 & 3 \\\\ 0 & 1 & 4 \\\\ 0 & 0 & 0 \\end{pmatrix}$. Xét tính đúng/sai:",
+            subQuestions: [
+              { label: "a)", text: "Hạng của ánh xạ $\\operatorname{rank}(f) = 2$.", answer: true },
+              { label: "b)", text: "Số chiều không gian nhân $\\dim(\\ker f) = 1$.", answer: true },
+              { label: "c)", text: "Ánh xạ $f$ là một đơn ánh.", answer: false },
+              { label: "d)", text: "Số $0$ là một giá trị riêng của ma trận $A$.", answer: true }
+            ],
+            explanation: "• a) Ma trận bậc thang có 2 hàng khác 0 nên $\\operatorname{rank}(f) = 2$ (Đ).<br>• b) $\\dim(\\ker f) = 3 - 2 = 1$ (Đ).<br>• c) $\\ker(f) \\neq \\{0\\}$ nên $f$ không là đơn ánh (S).<br>• d) $\\det(A) = 0$ nên $\\lambda = 0$ là trị riêng (Đ)."
+          },
+          {
+            id: 29, section: "PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI", type: "tf", points: 1.0,
+            question: "Cho không gian đa thức $P_2[x]$ và tập hợp $W = \\{p(x) \\in P_2[x] \\mid p(1) = 0\\}$. Xét tính đúng/sai:",
+            subQuestions: [
+              { label: "a)", text: "$W$ là một không gian véc-tơ con của $P_2[x]$.", answer: true },
+              { label: "b)", text: "Đa thức $p(x) = x^2 - 1$ thuộc không gian $W$.", answer: true },
+              { label: "c)", text: "Số chiều của không gian $W$ bằng $2$.", answer: true },
+              { label: "d)", text: "Hệ $\\{x - 1, x^2 - x\\}$ phụ thuộc tuyến tính.", answer: false }
+            ],
+            explanation: "• a) Tổng và tích với vô hướng của đa thức triệt tiêu tại $1$ vẫn triệt tiêu tại $1$ (Đ).<br>• b) $p(1) = 1^2 - 1 = 0$ (Đ).<br>• c) Ràng buộc $a + b + c = 0$ giảm số chiều từ $3$ xuống $2$ (Đ).<br>• d) Hai đa thức khác bậc (bậc 1 và bậc 2) luôn độc lập tuyến tính (S)."
+          },
+
+          // PHẦN III: TRẢ LỜI NGẮN (6 CÂU)
+          {
+            id: 30, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.16,
+            question: "Cho ma trận $A = \\begin{pmatrix} 1 & 3 \\\\ 3 & 9 \\end{pmatrix}$. Tính tổng tất cả các phần tử của ma trận $A^2$.",
+            answer: "160",
+            explanation: "$A^2 = \\begin{pmatrix} 10 & 30 \\\\ 30 & 90 \\end{pmatrix} = 10A$. Tổng các phần tử là $10 + 30 + 30 + 90 = 160$."
+          },
+          {
+            id: 31, section: "PHẦN III: TRẮC NGHIỆM TRẢ LỜI NGẮN", type: "short", points: 0.16,
+            question: "Cho ma trận $A$ cấp $3$ có các giá trị riêng là $2, 3, -1$. Tính định thức của ma trận $A^2$.",
+            answer: "36",
+            explanation: "$\\det(A) = 2 \\cdot 3 \\cdot (-1) = -6 \\implies \\det(A^2) = (-6)^2 = 36$."
+          },
+          {
+            id: 32, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.16,
+            question: "Cho ánh xạ tuyến tính $f: \\mathbb{R}^5 \\to \\mathbb{R}^4$ có $\\dim(\\ker f) = 2$. Tính hạng $\\operatorname{rank}(f)$.",
+            answer: "3",
+            explanation: "$\\operatorname{rank}(f) = \\dim(\\mathbb{R}^5) - \\dim(\\ker f) = 5 - 2 = 3$."
+          },
+          {
+            id: 33, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.16,
+            question: "Tìm tọa độ thứ nhất của véc-tơ $v = (7, 4)$ trong cơ sở $B = \\{(2, 1), (1, 1)\\}$ của $\\mathbb{R}^2$.",
+            answer: "3",
+            explanation: "$x(2, 1) + y(1, 1) = (7, 4) \\iff \\begin{cases} 2x + y = 7 \\\\ x + y = 4 \\end{cases} \\iff x = 3, y = 1$. Tọa độ thứ nhất là $3$."
+          },
+          {
+            id: 34, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.16,
+            question: "Cho ma trận $A = \\begin{pmatrix} 1 & 4 \\\\ 0 & 1 \\end{pmatrix}$. Tính phần tử ở hàng 1, cột 2 của ma trận $A^5$.",
+            answer: "20",
+            explanation: "$A^n = \\begin{pmatrix} 1 & 4n \\\\ 0 & 1 \\end{pmatrix}$, với $n = 5$ phần tử $(1,2)$ là $4 \\times 5 = 20$."
+          },
+          {
+            id: 35, section: "PHẦN III: TRẢ LỜI NGẮN", type: "short", points: 0.20,
+            question: "Cho ma trận $A$ cấp $2$ có $\\operatorname{tr}(A) = 5$ và $\\det(A) = 6$. Tính $\\operatorname{tr}(A^3)$.",
+            answer: "35",
+            explanation: "Hai trị riêng là nghiệm của $\\lambda^2 - 5\\lambda + 6 = 0 \\implies \\lambda_1 = 2, \\lambda_2 = 3$. Do đó $\\operatorname{tr}(A^3) = 2^3 + 3^3 = 8 + 27 = 35$."
+          }
+        ]
       }
     };
 
