@@ -1510,74 +1510,58 @@
       de7: {
     title: "Đề 7 — 25 Trắc nghiệm, 4 Đúng/Sai & 6 Trả lời ngắn",
     questions: [
-      // --- 25 CÂU TRẮC NGHIỆM (d7_q1 -> d7_q25) ---
+      // --- PHẦN I: TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN LỰA CHỌN (25 CÂU) ---
       {
-        id: "d7_q1",
-        type: "mcq",
-        points: 0.2,
+        id: 1, section: "PHẦN I: TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN LỰA CHỌN", type: "mcq", points: 0.2,
         question: "Cho ma trận $A = \\begin{pmatrix} 2 & -1 \\\\ 3 & 4 \\end{pmatrix}$. Giá trị của $\\det(A)$ bằng:",
         options: ["5", "11", "-5", "8"],
         answer: 1,
         explanation: "$\\det(A) = 2 \\cdot 4 - (-1) \\cdot 3 = 8 + 3 = 11$."
       },
       {
-        id: "d7_q2",
-        type: "mcq",
-        points: 0.2,
+        id: 2, type: "mcq", points: 0.2,
         question: "Cho $A = \\begin{pmatrix} 1 & 2 \\\\ 0 & -1 \\end{pmatrix}$ và $B = \\begin{pmatrix} 3 & 1 \\\\ 2 & 0 \\end{pmatrix}$. Phần tử $(1, 1)$ của ma trận $AB$ là:",
         options: ["7", "5", "3", "1"],
         answer: 0,
         explanation: "Hàng $1$ của $A$ nhân cột $1$ của $B$: $1 \\cdot 3 + 2 \\cdot 2 = 7$."
       },
       {
-        id: "d7_q3",
-        type: "mcq",
-        points: 0.2,
+        id: 3, type: "mcq", points: 0.2,
         question: "Cho ma trận vuông $A$ cấp $3$ có $\\det(A) = -2$. Khi đó $\\det(3A)$ bằng:",
         options: ["-6", "-18", "-54", "54"],
         answer: 2,
         explanation: "$\\det(3A) = 3^3 \\det(A) = 27 \\cdot (-2) = -54$."
       },
       {
-        id: "d7_q4",
-        type: "mcq",
-        points: 0.2,
+        id: 4, type: "mcq", points: 0.2,
         question: "Cho ma trận vuông $A$ cấp $2$ khả nghịch có $\\det(A) = 5$. Giá trị của $\\det(A^{-1})$ là:",
         options: ["5", "-5", "$\\frac{1}{5}$", "$-\\frac{1}{5}$"],
         answer: 2,
         explanation: "$\\det(A^{-1}) = \\frac{1}{\\det(A)} = \\frac{1}{5}$."
       },
       {
-        id: "d7_q5",
-        type: "mcq",
-        points: 0.2,
+        id: 5, type: "mcq", points: 0.2,
         question: "Hạng của ma trận $A = \\begin{pmatrix} 1 & 2 & 3 \\\\ 2 & 4 & 6 \\\\ 0 & 1 & 1 \\end{pmatrix}$ là:",
         options: ["1", "2", "3", "0"],
         answer: 1,
         explanation: "Hàng $2$ gấp đôi hàng $1$ nên khử được; còn hai hàng độc lập nên $\\operatorname{rank}(A) = 2$."
       },
       {
-        id: "d7_q6",
-        type: "mcq",
-        points: 0.2,
+        id: 6, type: "mcq", points: 0.2,
         question: "Ma trận chuyển vị của $A = \\begin{pmatrix} 1 & 4 & -2 \\\\ 2 & 0 & 5 \\end{pmatrix}$ có cỡ là:",
         options: ["$2 \\times 3$", "$3 \\times 2$", "$2 \\times 2$", "$3 \\times 3$"],
         answer: 1,
         explanation: "$A$ có cỡ $2 \\times 3$ nên $A^T$ có cỡ $3 \\times 2$."
       },
       {
-        id: "d7_q7",
-        type: "mcq",
-        points: 0.2,
+        id: 7, type: "mcq", points: 0.2,
         question: "Định thức của ma trận tam giác dưới $A = \\begin{pmatrix} -2 & 0 & 0 \\\\ 4 & 3 & 0 \\\\ -1 & 7 & 2 \\end{pmatrix}$ bằng:",
         options: ["-12", "12", "-2", "3"],
         answer: 0,
         explanation: "Định thức ma trận tam giác bằng tích các phần tử trên đường chéo chính: $(-2) \\cdot 3 \\cdot 2 = -12$."
       },
       {
-        id: "d7_q8",
-        type: "mcq",
-        points: 0.2,
+        id: 8, type: "mcq", points: 0.2,
         question: "Điều kiện để ma trận vuông $A$ cấp $n$ khả nghịch là:",
         options: [
           "$\\det(A) = 0$",
@@ -1589,9 +1573,7 @@
         explanation: "Ma trận vuông khả nghịch khi và chỉ khi $\\det(A) \\neq 0$ (tương đương $\\operatorname{rank}(A) = n$)."
       },
       {
-        id: "d7_q9",
-        type: "mcq",
-        points: 0.2,
+        id: 9, type: "mcq", points: 0.2,
         question: "Nghịch đảo của ma trận $A = \\begin{pmatrix} 3 & 1 \\\\ 5 & 2 \\end{pmatrix}$ là:",
         options: [
           "$\\begin{pmatrix} 2 & -1 \\\\ -5 & 3 \\end{pmatrix}$",
@@ -1603,27 +1585,21 @@
         explanation: "$\\det(A) = 3 \\cdot 2 - 1 \\cdot 5 = 1$, suy ra $A^{-1} = \\begin{pmatrix} 2 & -1 \\\\ -5 & 3 \\end{pmatrix}$."
       },
       {
-        id: "d7_q10",
-        type: "mcq",
-        points: 0.2,
+        id: 10, type: "mcq", points: 0.2,
         question: "Hệ phương trình tuyến tính thuần nhất $AX = 0$ với $A$ cỡ $3 \\times 5$ và $\\operatorname{rank}(A) = 2$ có số chiều không gian nghiệm là:",
         options: ["2", "3", "5", "1"],
         answer: 1,
         explanation: "Số ẩn $n = 5$, hạng $r = 2$, nên $\\dim V = n - r = 5 - 2 = 3$."
       },
       {
-        id: "d7_q11",
-        type: "mcq",
-        points: 0.2,
+        id: 11, type: "mcq", points: 0.2,
         question: "Với giá trị nào của $m$ thì hệ $\\begin{cases} x + 2y = 3 \\\\ 2x + my = 6 \\end{cases}$ có vô số nghiệm?",
         options: ["$m = 4$", "$m \\neq 4$", "$m = 2$", "$m = -4$"],
         answer: 0,
         explanation: "Khi $m = 4$, phương trình thứ hai là bội của phương trình thứ nhất và giữ nguyên vế phải nên hệ có vô số nghiệm."
       },
       {
-        id: "d7_q12",
-        type: "mcq",
-        points: 0.2,
+        id: 12, type: "mcq", points: 0.2,
         question: "Hệ Cramer gồm $n$ phương trình và $n$ ẩn $AX = B$ có nghiệm duy nhất khi nào?",
         options: [
           "$\\det(A) = 0$",
@@ -1635,9 +1611,7 @@
         explanation: "Theo quy tắc Cramer, hệ vuông $AX = B$ có nghiệm duy nhất khi và chỉ khi $\\det(A) \\neq 0$."
       },
       {
-        id: "d7_q13",
-        type: "mcq",
-        points: 0.2,
+        id: 13, type: "mcq", points: 0.2,
         question: "Trong $\\mathbb{R}^3$, tập hợp nào sau đây là không gian vectơ con của $\\mathbb{R}^3$?",
         options: [
           "$\\{(x, y, z) : x + y + z = 1\\}$",
@@ -1649,9 +1623,7 @@
         explanation: "Tập nghiệm của phương trình tuyến tính thuần nhất $x - 2y + 3z = 0$ đóng kín với phép cộng và nhân vô hướng nên là không gian con."
       },
       {
-        id: "d7_q14",
-        type: "mcq",
-        points: 0.2,
+        id: 14, type: "mcq", points: 0.2,
         question: "Trong $\\mathbb{R}^3$, hệ vectơ $S = \\{(1, 2, -1), (2, 4, -2)\\}$ có tính chất gì?",
         options: [
           "Độc lập tuyến tính",
@@ -1663,27 +1635,21 @@
         explanation: "Vectơ thứ hai bằng $2$ lần vectơ thứ nhất nên hệ phụ thuộc tuyến tính."
       },
       {
-        id: "d7_q15",
-        type: "mcq",
-        points: 0.2,
+        id: 15, type: "mcq", points: 0.2,
         question: "Số chiều của không gian vectơ $\\mathbb{R}^4$ là:",
         options: ["3", "4", "5", "Vô hạn"],
         answer: 1,
         explanation: "Cơ sở chính tắc của $\\mathbb{R}^4$ có $4$ vectơ nên $\\dim(\\mathbb{R}^4) = 4$."
       },
       {
-        id: "d7_q16",
-        type: "mcq",
-        points: 0.2,
+        id: 16, type: "mcq", points: 0.2,
         question: "Tọa độ của vectơ $v = (5, 7)$ trong cơ sở $E = \\{(1, 1), (1, 2)\\}$ của $\\mathbb{R}^2$ là:",
         options: ["$(3, 2)$", "$(2, 3)$", "$(5, 7)$", "$(-3, 2)$"],
         answer: 0,
         explanation: "$3(1, 1) + 2(1, 2) = (5, 7)$, nên tọa độ của $v$ đối với cơ sở $E$ là $(3, 2)$."
       },
       {
-        id: "d7_q17",
-        type: "mcq",
-        points: 0.2,
+        id: 17, type: "mcq", points: 0.2,
         question: "Trong $\\mathbb{R}^3$, hệ $3$ vectơ nào sau đây độc lập tuyến tính?",
         options: [
           "$(1, 0, 0), (0, 1, 0), (1, 1, 0)$",
@@ -1695,45 +1661,35 @@
         explanation: "$\\det\\begin{pmatrix} 1 & 0 & 1 \\\\ 1 & 1 & 0 \\\\ 0 & 1 & 1 \\end{pmatrix} = 2 \\neq 0$ nên ba vectơ này độc lập tuyến tính."
       },
       {
-        id: "d7_q18",
-        type: "mcq",
-        points: 0.2,
+        id: 18, type: "mcq", points: 0.2,
         question: "Cho ánh xạ tuyến tính $f : \\mathbb{R}^3 \\to \\mathbb{R}^2$ cho bởi $f(x, y, z) = (x + y, y - z)$. Khi đó $f(1, -1, 2)$ bằng:",
         options: ["$(0, -3)$", "$(2, -3)$", "$(0, 1)$", "$(-2, 3)$"],
         answer: 0,
         explanation: "$f(1, -1, 2) = (1 + (-1), -1 - 2) = (0, -3)$."
       },
       {
-        id: "d7_q19",
-        type: "mcq",
-        points: 0.2,
+        id: 19, type: "mcq", points: 0.2,
         question: "Với ánh xạ tuyến tính $T : V \\to W$, ảnh của vectơ không $0_V$ luôn là:",
         options: ["$0_W$", "Một vectơ bất kỳ trong $W$", "Tập rỗng", "Không xác định"],
         answer: 0,
         explanation: "Vì $T(0_V) = T(0 \\cdot 0_V) = 0 \\cdot T(0_V) = 0_W$."
       },
       {
-        id: "d7_q20",
-        type: "mcq",
-        points: 0.2,
+        id: 20, type: "mcq", points: 0.2,
         question: "Cho ánh xạ tuyến tính $f : \\mathbb{R}^2 \\to \\mathbb{R}^2$ có ma trận chính tắc $M_f = \\begin{pmatrix} 1 & 2 \\\\ 0 & 3 \\end{pmatrix}$. Giá trị của $f(1, 2)$ là:",
         options: ["$(5, 6)$", "$(7, 6)$", "$(5, 2)$", "$(1, 6)$"],
         answer: 0,
         explanation: "$\\begin{pmatrix} 1 & 2 \\\\ 0 & 3 \\end{pmatrix}\\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix} = \\begin{pmatrix} 5 \\\\ 6 \\end{pmatrix}$, tức là $(5, 6)$."
       },
       {
-        id: "d7_q21",
-        type: "mcq",
-        points: 0.2,
+        id: 21, type: "mcq", points: 0.2,
         question: "Cho ma trận $A = \\begin{pmatrix} 2 & 0 \\\\ 0 & -3 \\end{pmatrix}$. Các giá trị riêng của $A$ là:",
         options: ["$2$ và $3$", "$-2$ và $3$", "$2$ và $-3$", "$0$ và $6$"],
         answer: 2,
         explanation: "Ma trận đường chéo có các giá trị riêng là các phần tử trên đường chéo chính: $\\lambda_1 = 2, \\lambda_2 = -3$."
       },
       {
-        id: "d7_q22",
-        type: "mcq",
-        points: 0.2,
+        id: 22, type: "mcq", points: 0.2,
         question: "Đa thức đặc trưng của ma trận $A = \\begin{pmatrix} 1 & 2 \\\\ 0 & 4 \\end{pmatrix}$ là:",
         options: [
           "$(\\lambda - 1)(\\lambda - 4)$",
@@ -1745,9 +1701,7 @@
         explanation: "$\\det(A - \\lambda I) = (1 - \\lambda)(4 - \\lambda) = (\\lambda - 1)(\\lambda - 4)$."
       },
       {
-        id: "d7_q23",
-        type: "mcq",
-        points: 0.2,
+        id: 23, type: "mcq", points: 0.2,
         question: "Cho $\\lambda = 3$ là một giá trị riêng của ma trận vuông $A$. Vectơ $v \\neq 0$ là vectơ riêng ứng với $\\lambda = 3$ khi nào?",
         options: [
           "$Av = 0$",
@@ -1759,18 +1713,14 @@
         explanation: "Theo định nghĩa, vectơ riêng $v \\neq 0$ ứng với giá trị riêng $\\lambda$ thỏa mãn $Av = \\lambda v$, ở đây là $Av = 3v$."
       },
       {
-        id: "d7_q24",
-        type: "mcq",
-        points: 0.2,
+        id: 24, type: "mcq", points: 0.2,
         question: "Trong $\\mathbb{R}^2$ với tích vô hướng chính tắc, tích vô hướng của $u = (2, -1)$ và $v = (3, 4)$ bằng:",
         options: ["2", "10", "-2", "6"],
         answer: 0,
         explanation: "$\\langle u, v \\rangle = 2 \\cdot 3 + (-1) \\cdot 4 = 6 - 4 = 2$."
       },
       {
-        id: "d7_q25",
-        type: "mcq",
-        points: 0.2,
+        id: 25, type: "mcq", points: 0.2,
         question: "Hai vectơ $u = (1, 2)$ và $v = (-4, 2)$ trong $\\mathbb{R}^2$ (tích vô hướng chính tắc) có quan hệ gì?",
         options: [
           "Trực giao với nhau",
@@ -1827,92 +1777,73 @@
         ],
         explanation: "• a) $T(0_V) = 0_W$ (Đ).<br>• b) $\\ker(T)$ là không gian con của không gian nguồn $V$ (Đ).<br>• c) $\\operatorname{Im}(T)$ là không gian con của không gian đích $W$, không phải $V$ (S).<br>• d) Tổng các giá trị riêng bằng $\\operatorname{tr}(A)$ (Đ)."
       },
-      // --- 6 CÂU TRẢ LỜI NGẮN (d7_q30 -> d7_q35) ---
+
+      // --- PHẦN III: TRẮC NGHIỆM TRẢ LỜI NGẮN (6 CÂU) ---
       {
-        id: "d7_q30",
-        type: "short",
-        points: 0.5,
+        id: 30, section: "PHẦN III: TRẮC NGHIỆM TRẢ LỜI NGẮN", type: "short", points: 1 / 6,
         question: "Cho ma trận $A = \\begin{pmatrix} 2 & 1 \\\\ 5 & 3 \\end{pmatrix}$. Tìm phần tử ở hàng $1$, cột $2$ của ma trận nghịch đảo $A^{-1}$.",
         answer: "-1",
         explanation: "$\\det(A) = 2 \\cdot 3 - 1 \\cdot 5 = 1$, nên $A^{-1} = \\begin{pmatrix} 3 & -1 \\\\ -5 & 2 \\end{pmatrix}$, phần tử $(1, 2)$ là $-1$."
       },
       {
-        id: "d7_q31",
-        type: "short",
-        points: 0.5,
+        id: 31, type: "short", points: 1 / 6,
         question: "Tìm nghiệm $x_2$ của hệ phương trình: $\\begin{cases} x_1 + 2x_2 = 8 \\\\ 2x_1 + 3x_2 = 13 \\end{cases}$.",
         answer: "3",
         explanation: "Nhân phương trình đầu với $2$ rồi trừ phương trình hai: $(2x_1 + 4x_2) - (2x_1 + 3x_2) = 16 - 13 \\implies x_2 = 3$."
       },
       {
-        id: "d7_q32",
-        type: "short",
-        points: 0.5,
+        id: 32, type: "short", points: 1 / 6,
         question: "Trong $\\mathbb{R}^4$, số chiều của không gian nghiệm của hệ thuần nhất gồm $1$ phương trình độc lập $x_1 - x_2 + 2x_3 - x_4 = 0$ là bao nhiêu?",
         answer: "3",
         explanation: "$\\dim = 4 - 1 = 3$."
       },
       {
-        id: "d7_q33",
-        type: "short",
-        points: 0.5,
+        id: 33, type: "short", points: 1 / 6,
         question: "Tổng các giá trị riêng (tính cả bội) của ma trận $A = \\begin{pmatrix} 5 & -2 \\\\ 1 & 3 \\end{pmatrix}$ bằng bao nhiêu?",
         answer: "8",
         explanation: "Tổng các giá trị riêng bằng vết của ma trận: $\\operatorname{tr}(A) = 5 + 3 = 8$."
       },
       {
-        id: "d7_q34",
-        type: "short",
-        points: 0.5,
+        id: 34, type: "short", points: 1 / 6,
         question: "Tìm giá trị của tham số $m$ để ba vectơ $u = (1, 2, 0)$, $v = (0, 1, 3)$, $w = (2, 5, m)$ trong $\\mathbb{R}^3$ phụ thuộc tuyến tính.",
         answer: "3",
         explanation: "Ta có $2u + v = 2(1, 2, 0) + (0, 1, 3) = (2, 5, 3)$, nên ba vectơ phụ thuộc tuyến tính khi $m = 3$."
       },
       {
-        id: "d7_q35",
-        type: "short",
-        points: 0.5,
+        id: 35, type: "short", points: 1 / 6,
         question: "Trong $\\mathbb{R}^3$ với tích vô hướng chính tắc, tính độ dài (chuẩn Euclid) của vectơ $u = (2, -1, 2)$.",
         answer: "3",
         explanation: "$\\|u\\| = \\sqrt{2^2 + (-1)^2 + 2^2} = \\sqrt{4 + 1 + 4} = \\sqrt{9} = 3$."
       }
     ]
   },
-  de8: {
+ de8: {
     title: "Đề 8 — 25 Trắc nghiệm, 4 Đúng/Sai & 6 Trả lời ngắn",
     questions: [
-      // --- 25 CÂU TRẮC NGHIỆM (d8_q1 -> d8_q25) ---
+      // --- PHẦN I: TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN LỰA CHỌN (25 CÂU) ---
       {
-        id: "d8_q1",
-        type: "mcq",
-        points: 0.2,
+        id: 1, section: "PHẦN I: TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN LỰA CHỌN", type: "mcq", points: 0.2,
         question: "Cho ma trận $A = \\begin{pmatrix} 1 & 0 & 2 \\\\ -1 & 3 & 1 \\\\ 2 & 0 & -1 \\end{pmatrix}$. Phần bù đại số $A_{22}$ của phần tử $a_{22}$ bằng:",
         options: ["-5", "5", "-3", "3"],
         answer: 0,
         explanation: "$A_{22} = (-1)^{2+2} \\det\\begin{pmatrix} 1 & 2 \\\\ 2 & -1 \\end{pmatrix} = 1 \\cdot (-1 - 4) = -5$."
       },
       {
-        id: "d8_q2",
-        type: "mcq",
-        points: 0.2,
+        id: 2, type: "mcq", points: 0.2,
         question: "Cho ma trận $A = \\begin{pmatrix} 1 & 2 \\\\ 3 & 4 \\end{pmatrix}$. Ma trận $A^2 - 5A$ bằng:",
         options: ["$2I_2$", "$-2I_2$", "$0$", "$I_2$"],
         answer: 0,
         explanation: "Theo định lý Cayley-Hamilton, đa thức đặc trưng là $\\lambda^2 - 5\\lambda - 2 = 0 \\implies A^2 - 5A - 2I_2 = 0 \\implies A^2 - 5A = 2I_2$."
       },
       {
-        id: "d8_q3",
-        type: "mcq",
-        points: 0.2,
+        id: 3, type: "mcq", points: 0.2,
         question: "Cho $A, B$ là hai ma trận vuông cấp $3$ có $\\det(A) = -3$ và $\\det(B) = 4$. Giá trị của $\\det(2A^T B^{-1})$ là:",
         options: ["-6", "-2", "6", "-24"],
         answer: 0,
         explanation: "$\\det(2A^T B^{-1}) = 2^3 \\det(A^T) \\det(B^{-1}) = 8 \\cdot (-3) \\cdot \\frac{1}{4} = -6$."
       },
       {
-        id: "d8_q4",
-        type: "mcq",
-        points: 0.2,
+        id: 4, type: "mcq", points: 0.2,
         question: "Cho ma trận $A = \\begin{pmatrix} 1 & 3 \\\\ 2 & 7 \\end{pmatrix}$ và $B = \\begin{pmatrix} 4 \\\\ 9 \\end{pmatrix}$. Nghiệm của phương trình ma trận $AX = B$ là:",
         options: [
           "$X = \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix}$",
@@ -1924,9 +1855,7 @@
         explanation: "$\\det(A) = 7 - 6 = 1$, $A^{-1} = \\begin{pmatrix} 7 & -3 \\\\ -2 & 1 \\end{pmatrix}$, suy ra $X = A^{-1}B = \\begin{pmatrix} 28 - 27 \\\\ -8 + 9 \\end{pmatrix} = \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix}$."
       },
       {
-        id: "d8_q5",
-        type: "mcq",
-        points: 0.2,
+        id: 5, type: "mcq", points: 0.2,
         question: "Cho ma trận $A = \\begin{pmatrix} 0 & 1 & 0 \\\\ 0 & 0 & 1 \\\\ 0 & 0 & 0 \\end{pmatrix}$. Khẳng định nào sau đây đúng?",
         options: [
           "$A^2 = 0$",
@@ -1938,27 +1867,21 @@
         explanation: "$A^2 = \\begin{pmatrix} 0 & 0 & 1 \\\\ 0 & 0 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} \\neq 0$ và $A^3 = 0$ ($A$ là ma trận lũy linh bậc $3$)."
       },
       {
-        id: "d8_q6",
-        type: "mcq",
-        points: 0.2,
+        id: 6, type: "mcq", points: 0.2,
         question: "Tìm $m$ để hạng của ma trận $A = \\begin{pmatrix} 1 & -1 & 2 \\\\ 2 & 1 & 1 \\\\ 3 & 0 & m \\end{pmatrix}$ bằng $2$:",
         options: ["$m = 3$", "$m = 1$", "$m = -3$", "$m = 0$"],
         answer: 0,
         explanation: "Hàng $1$ cộng hàng $2$ được $(3, 0, 3)$. Để hàng $3$ phụ thuộc tuyến tính vào hai hàng đầu (tức $\\operatorname{rank}(A) = 2$) thì $m = 3$."
       },
       {
-        id: "d8_q7",
-        type: "mcq",
-        points: 0.2,
+        id: 7, type: "mcq", points: 0.2,
         question: "Định thức của ma trận phản đối xứng cấp lẻ bất kỳ luôn bằng:",
         options: ["$1$", "$-1$", "$0$", "Phụ thuộc vào các phần tử"],
         answer: 2,
         explanation: "Với $A^T = -A$ cấp $n$ lẻ: $\\det(A) = \\det(A^T) = \\det(-A) = (-1)^n \\det(A) = -\\det(A) \\implies \\det(A) = 0$."
       },
       {
-        id: "d8_q8",
-        type: "mcq",
-        points: 0.2,
+        id: 8, type: "mcq", points: 0.2,
         question: "Cho ma trận $A = \\begin{pmatrix} 2 & 4 \\\\ 1 & 3 \\end{pmatrix}$. Ma trận phụ hợp $\\operatorname{adj}(A)$ (ma trận chuyển vị của ma trận phần bù đại số) là:",
         options: [
           "$\\begin{pmatrix} 3 & -4 \\\\ -1 & 2 \\end{pmatrix}$",
@@ -1970,63 +1893,49 @@
         explanation: "Với ma trận cấp $2$, $\\operatorname{adj}\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix} = \\begin{pmatrix} d & -b \\\\ -c & a \\end{pmatrix} = \\begin{pmatrix} 3 & -4 \\\\ -1 & 2 \\end{pmatrix}$."
       },
       {
-        id: "d8_q9",
-        type: "mcq",
-        points: 0.2,
+        id: 9, type: "mcq", points: 0.2,
         question: "Cho hệ phương trình tuyến tính $AX = B$ gồm $4$ phương trình và $4$ ẩn. Biết $\\det(A) = 2$ và định thức thay cột $3$ của $A$ bởi cột $B$ là $\\det(A_3) = -6$. Giá trị của ẩn $x_3$ là:",
         options: ["$-3$", "$3$", "$-12$", "$-\\frac{1}{3}$"],
         answer: 0,
         explanation: "Theo quy tắc Cramer, $x_3 = \\frac{\\det(A_3)}{\\det(A)} = \\frac{-6}{2} = -3$."
       },
       {
-        id: "d8_q10",
-        type: "mcq",
-        points: 0.2,
+        id: 10, type: "mcq", points: 0.2,
         question: "Tìm điều kiện của tham số $k$ để hệ $\\begin{cases} x + y + z = 1 \\\\ x + 2y + 3z = 2 \\\\ 2x + 3y + kz = 4 \\end{cases}$ vô nghiệm:",
         options: ["$k = 4$", "$k \\neq 4$", "$k = 3$", "$k = 5$"],
         answer: 0,
         explanation: "Cộng hai phương trình đầu được $2x + 3y + 4z = 3$. Khi $k = 4$, vế trái trùng nhau nhưng vế phải $3 \\neq 4$ nên hệ vô nghiệm."
       },
       {
-        id: "d8_q11",
-        type: "mcq",
-        points: 0.2,
+        id: 11, type: "mcq", points: 0.2,
         question: "Cho hệ thuần nhất $\\begin{cases} x_1 + 2x_2 - x_3 + 3x_4 = 0 \\\\ 2x_1 + 4x_2 - x_3 + 5x_4 = 0 \\end{cases}$. Một hệ nghiệm cơ bản của hệ này gồm bao nhiêu vectơ?",
         options: ["1", "2", "3", "4"],
         answer: 1,
         explanation: "Ma trận hệ số có cỡ $2 \\times 4$ và hai hàng không tỉ lệ nên $\\operatorname{rank}(A) = 2$. Số vectơ trong hệ nghiệm cơ bản là $n - r = 4 - 2 = 2$."
       },
       {
-        id: "d8_q12",
-        type: "mcq",
-        points: 0.2,
+        id: 12, type: "mcq", points: 0.2,
         question: "Cho $X_1, X_2$ là hai nghiệm phân biệt của hệ không thuần nhất $AX = B$. Vectơ nào sau đây là nghiệm của hệ thuần nhất $AX = 0$?",
         options: ["$X_1 + X_2$", "$X_1 - X_2$", "$2X_1 - X_2$", "$\\frac{1}{2}(X_1 + X_2)$"],
         answer: 1,
         explanation: "$A(X_1 - X_2) = AX_1 - AX_2 = B - B = 0$, nên $X_1 - X_2$ là nghiệm của hệ thuần nhất."
       },
       {
-        id: "d8_q13",
-        type: "mcq",
-        points: 0.2,
+        id: 13, type: "mcq", points: 0.2,
         question: "Trong không gian đa thức $P_2[x]$ (đa thức bậc $\\le 2$), số chiều của $P_2[x]$ là:",
         options: ["2", "3", "4", "1"],
         answer: 1,
         explanation: "Cơ sở chính tắc của $P_2[x]$ là $\\{1, x, x^2\\}$ gồm $3$ phần tử nên $\\dim(P_2[x]) = 3$."
       },
       {
-        id: "d8_q14",
-        type: "mcq",
-        points: 0.2,
+        id: 14, type: "mcq", points: 0.2,
         question: "Trong $\\mathbb{R}^4$, cho hai không gian con $U, W$ thỏa mãn $\\dim(U) = 3$, $\\dim(W) = 2$ và $\\dim(U + W) = 4$. Số chiều của không gian giao $U \\cap W$ là:",
         options: ["1", "2", "0", "3"],
         answer: 0,
         explanation: "Theo công thức Grassmann: $\\dim(U \\cap W) = \\dim(U) + \\dim(W) - \\dim(U + W) = 3 + 2 - 4 = 1$."
       },
       {
-        id: "d8_q15",
-        type: "mcq",
-        points: 0.2,
+        id: 15, type: "mcq", points: 0.2,
         question: "Ma trận chuyển cơ sở từ cơ sở chính tắc $E = \\{(1, 0), (0, 1)\\}$ sang cơ sở $B = \\{(2, 1), (3, 2)\\}$ của $\\mathbb{R}^2$ là:",
         options: [
           "$\\begin{pmatrix} 2 & 3 \\\\ 1 & 2 \\end{pmatrix}$",
@@ -2038,9 +1947,7 @@
         explanation: "Các cột của ma trận chuyển cơ sở từ $E$ sang $B$ là tọa độ của các vectơ cơ sở $B$ viết theo cột: $\\begin{pmatrix} 2 & 3 \\\\ 1 & 2 \\end{pmatrix}$."
       },
       {
-        id: "d8_q16",
-        type: "mcq",
-        points: 0.2,
+        id: 16, type: "mcq", points: 0.2,
         question: "Trong $P_2[x]$, hệ đa thức $\\{1, x + 1, (x + 1)^2\\}$ có tính chất gì?",
         options: [
           "Là một cơ sở của $P_2[x]$",
@@ -2052,18 +1959,14 @@
         explanation: "Ba đa thức có bậc đôi một khác nhau ($0, 1, 2$) nên độc lập tuyến tính; vì $\\dim(P_2[x]) = 3$ nên chúng tạo thành một cơ sở."
       },
       {
-        id: "d8_q17",
-        type: "mcq",
-        points: 0.2,
+        id: 17, type: "mcq", points: 0.2,
         question: "Cho ánh xạ tuyến tính $T : \\mathbb{R}^4 \\to \\mathbb{R}^3$ có $\\dim(\\ker T) = 2$. Số chiều của ảnh $\\operatorname{Im}(T)$ là:",
         options: ["1", "2", "3", "4"],
         answer: 1,
         explanation: "Theo định lý hạng - số khuyết: $\\dim(\\ker T) + \\dim(\\operatorname{Im} T) = \\dim(\\mathbb{R}^4) = 4 \\implies \\dim(\\operatorname{Im} T) = 4 - 2 = 2$."
       },
       {
-        id: "d8_q18",
-        type: "mcq",
-        points: 0.2,
+        id: 18, type: "mcq", points: 0.2,
         question: "Ánh xạ $f : \\mathbb{R}^2 \\to \\mathbb{R}^2$ nào sau đây **không** phải là ánh xạ tuyến tính?",
         options: [
           "$f(x, y) = (2x - y, 3y)$",
@@ -2075,9 +1978,7 @@
         explanation: "Với $f(x, y) = (x + 1, y)$, ta có $f(0, 0) = (1, 0) \\neq (0, 0)$ nên không phải ánh xạ tuyến tính."
       },
       {
-        id: "d8_q19",
-        type: "mcq",
-        points: 0.2,
+        id: 19, type: "mcq", points: 0.2,
         question: "Cho toán tử tuyến tính $T : \\mathbb{R}^2 \\to \\mathbb{R}^2$ xác định bởi $T(x, y) = (x - 2y, 3x + 4y)$. Ma trận của $T$ trong cơ sở chính tắc là:",
         options: [
           "$\\begin{pmatrix} 1 & -2 \\\\ 3 & 4 \\end{pmatrix}$",
@@ -2089,9 +1990,7 @@
         explanation: "$T(1, 0) = (1, 3)$ là cột $1$, $T(0, 1) = (-2, 4)$ là cột $2$, nên ma trận là $\\begin{pmatrix} 1 & -2 \\\\ 3 & 4 \\end{pmatrix}$."
       },
       {
-        id: "d8_q20",
-        type: "mcq",
-        points: 0.2,
+        id: 20, type: "mcq", points: 0.2,
         question: "Hạt nhân $\\ker(T)$ của ánh xạ tuyến tính $T : \\mathbb{R}^2 \\to \\mathbb{R}^2$ cho bởi $T(x, y) = (x - y, 2x - 2y)$ là tập hợp các vectơ có dạng:",
         options: [
           "$(t, t)$ với $t \\in \\mathbb{R}$",
@@ -2103,9 +2002,7 @@
         explanation: "$T(x, y) = (0, 0) \\iff x - y = 0 \\iff x = y$, nên $\\ker(T) = \\{(t, t) : t \\in \\mathbb{R}\\}$."
       },
       {
-        id: "d8_q21",
-        type: "mcq",
-        points: 0.2,
+        id: 21, type: "mcq", points: 0.2,
         question: "Cho ma trận $A = \\begin{pmatrix} 3 & 1 \\\\ 0 & 3 \\end{pmatrix}$. Khẳng định nào sau đây đúng về tính chéo hóa của $A$?",
         options: [
           "$A$ chéo hóa được vì có $2$ giá trị riêng phân biệt",
@@ -2117,18 +2014,14 @@
         explanation: "Đa thức đặc trưng $(3 - \\lambda)^2 = 0$ có nghiệm kép $\\lambda = 3$, nhưng $\\operatorname{rank}(A - 3I) = 1 \\implies \\dim \\ker(A - 3I) = 2 - 1 = 1 < 2$, nên $A$ không chéo hóa được."
       },
       {
-        id: "d8_q22",
-        type: "mcq",
-        points: 0.2,
+        id: 22, type: "mcq", points: 0.2,
         question: "Nếu $\\lambda = 2$ là giá trị riêng của ma trận $A$ ứng với vectơ riêng $v$, thì $v$ là vectơ riêng của ma trận $A^3 + 2I$ ứng với giá trị riêng nào?",
         options: ["8", "10", "6", "12"],
         answer: 1,
         explanation: "$(A^3 + 2I)v = A^3v + 2v = 2^3 v + 2v = (8 + 2)v = 10v$."
       },
       {
-        id: "d8_q23",
-        type: "mcq",
-        points: 0.2,
+        id: 23, type: "mcq", points: 0.2,
         question: "Trong $\\mathbb{R}^3$ với tích vô hướng chính tắc, vectơ đơn vị (chuẩn hóa) cùng hướng với $u = (1, 2, 2)$ là:",
         options: [
           "$\\left(\\frac{1}{3}, \\frac{2}{3}, \\frac{2}{3}\\right)$",
@@ -2140,18 +2033,14 @@
         explanation: "$\\|u\\| = \\sqrt{1^2 + 2^2 + 2^2} = 3$, nên vectơ đơn vị là $\\frac{u}{\\|u\\|} = \\left(\\frac{1}{3}, \\frac{2}{3}, \\frac{2}{3}\\right)$."
       },
       {
-        id: "d8_q24",
-        type: "mcq",
-        points: 0.2,
+        id: 24, type: "mcq", points: 0.2,
         question: "Cho cơ sở trực chuẩn $\\{e_1, e_2\\}$ của $\\mathbb{R}^2$ và vectơ $v = 3e_1 - 4e_2$. Giá trị của $\\|v\\|$ bằng:",
         options: ["5", "7", "25", "1"],
         answer: 0,
         explanation: "Theo định lý Pythagore trong không gian Euclid: $\\|v\\| = \\sqrt{3^2 + (-4)^2} = \\sqrt{25} = 5$."
       },
       {
-        id: "d8_q25",
-        type: "mcq",
-        points: 0.2,
+        id: 25, type: "mcq", points: 0.2,
         question: "Ma trận của dạng toàn phương $q(x_1, x_2) = 3x_1^2 - 4x_1x_2 + 5x_2^2$ trong cơ sở chính tắc là:",
         options: [
           "$\\begin{pmatrix} 3 & -2 \\\\ -2 & 5 \\end{pmatrix}$",
@@ -2163,7 +2052,6 @@
         explanation: "Hệ số ngoài đường chéo chia đôi: $a_{12} = a_{21} = \\frac{-4}{2} = -2$, nên ma trận đối xứng là $\\begin{pmatrix} 3 & -2 \\\\ -2 & 5 \\end{pmatrix}$."
       },
 
-      // --- 4 CÂU ĐÚNG / SAI (d8_q26 -> d8_q29) ---
       // --- PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI (4 CÂU) ---
       {
         id: 26, section: "PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI", type: "tf", points: 1.0,
@@ -2209,51 +2097,40 @@
         ],
         explanation: "• a) $\\det(Q^T Q) = (\\det Q)^2 = 1 \\implies \\det Q = \\pm 1$ (Đ).<br>• b) Định lý Pythagore trong không gian Euclid (Đ).<br>• c) Hệ trực giao khác $0$ luôn độc lập tuyến tính (Đ).<br>• d) $Q^{-1} = Q^T$, không phải $-Q$ (S)."
       },
-      // --- 6 CÂU TRẢ LỜI NGẮN (d8_q30 -> d8_q35) ---
+
+      // --- PHẦN III: TRẮC NGHIỆM TRẢ LỜI NGẮN (6 CÂU) ---
       {
-        id: "d8_q30",
-        type: "short",
-        points: 0.5,
+        id: 30, section: "PHẦN III: TRẮC NGHIỆM TRẢ LỜI NGẮN", type: "short", points: 1 / 6,
         question: "Tính định thức của ma trận $A = \\begin{pmatrix} 1 & 2 & 3 \\\\ 0 & 4 & 5 \\\\ 0 & 0 & -2 \\end{pmatrix}$.",
         answer: "-8",
         explanation: "Định thức của ma trận tam giác trên bằng tích các phần tử trên đường chéo chính: $1 \\cdot 4 \\cdot (-2) = -8$."
       },
       {
-        id: "d8_q31",
-        type: "short",
-        points: 0.5,
+        id: 31, type: "short", points: 1 / 6,
         question: "Cho ma trận $A = \\begin{pmatrix} 1 & 3 \\\\ 2 & 4 \\end{pmatrix}$. Tính tổng tất cả các phần tử của ma trận $2A^T$.",
         answer: "20",
         explanation: "Tổng các phần tử của $A^T$ bằng tổng các phần tử của $A$: $1 + 3 + 2 + 4 = 10$. Nhân với $2$ được $2 \\cdot 10 = 20$."
       },
       {
-        id: "d8_q32",
-        type: "short",
-        points: 0.5,
+        id: 32, type: "short", points: 1 / 6,
         question: "Cho hệ phương trình tuyến tính thuần nhất $AX = 0$ với $A$ là ma trận cỡ $4 \\times 6$ có $\\operatorname{rank}(A) = 3$. Hỏi không gian nghiệm của hệ có số chiều bằng bao nhiêu?",
         answer: "3",
         explanation: "Số ẩn $n = 6$, hạng $r = 3$, nên số chiều không gian nghiệm là $n - r = 6 - 3 = 3$."
       },
       {
-        id: "d8_q33",
-        type: "short",
-        points: 0.5,
+        id: 33, type: "short", points: 1 / 6,
         question: "Trong $\\mathbb{R}^3$, cho ánh xạ tuyến tính $T(x, y, z) = (x + 2y - z, 2x + 4y - 2z, 3x + 6y - 3z)$. Tính số chiều của hạt nhân $\\ker(T)$.",
         answer: "2",
         explanation: "Ba hàng của ma trận $T$ đều tỉ lệ với $(1, 2, -1)$ nên $\\operatorname{rank}(T) = 1$, suy ra $\\dim(\\ker T) = 3 - 1 = 2$."
       },
       {
-        id: "d8_q34",
-        type: "short",
-        points: 0.5,
+        id: 34, type: "short", points: 1 / 6,
         question: "Tìm giá trị riêng lớn nhất của ma trận $A = \\begin{pmatrix} 4 & 1 \\\\ 2 & 3 \\end{pmatrix}$.",
         answer: "5",
         explanation: "$\\det(A - \\lambda I) = (4 - \\lambda)(3 - \\lambda) - 2 = \\lambda^2 - 7\\lambda + 10 = 0 \\iff \\lambda = 2$ hoặc $\\lambda = 5$. Giá trị riêng lớn nhất là $5$."
       },
       {
-        id: "d8_q35",
-        type: "short",
-        points: 0.5,
+        id: 35, type: "short", points: 1 / 6,
         question: "Trong $\\mathbb{R}^3$ với tích vô hướng chính tắc, tìm giá trị của tham số $k$ để hai vectơ $u = (2, k, -1)$ và $v = (3, 2, 4)$ trực giao với nhau.",
         answer: "-1",
         explanation: "$\\langle u, v \\rangle = 2 \\cdot 3 + k \\cdot 2 + (-1) \\cdot 4 = 6 + 2k - 4 = 2k + 2 = 0 \\iff k = -1$."
